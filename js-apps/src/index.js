@@ -1,51 +1,28 @@
+var str = '';
 
-//Advanced boolean
-
-var firstName = "Subramaian";
-
-if (firstName) {
-    console.log("firstName found")
-} else {
-    console.log("firstName not found")
-}
-var lastName = "";
-
-if (lastName) {
-    console.log("lastName found")
-} else {
-    console.log("lastName not found")
+for (var i = 0; i < 9; i++) {
+    str = str + i;
 }
 
-var age = 18;
+console.log(str);
 
-if (age) {
-    console.log("age found")
-} else {
-    console.log("age not found")
+var n = 0;
+
+while (n < 10) {
+    console.log(n)
+    n++;
 }
 
-var count = 0;
+console.log(n);
+// expected output
 
-if (count) {
-    console.log("count found")
-} else {
-    console.log("count not found")
-}
+var result = '';
+var i = 0;
 
+do {
+    i = i + 1;
+    result = result + i;
+} while (i < 5);
 
-var price;
-
-if (price) {
-    console.log("price found")
-} else {
-    console.log("price not found")
-}
-
-
-var totalPrice = price *100;
-
-if (totalPrice) {
-    console.log("totalPrice found")
-} else {
-    console.log("totalPrice not found")
-}
+console.log(result);
+// expected result: "12345"

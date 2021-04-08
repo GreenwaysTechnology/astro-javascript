@@ -546,14 +546,361 @@ if (totalPrice) {
 } else {
     console.log("totalPrice not found")
 }
+/////////////////////////////////////////////////////////////////////////////////////////////
+
+type of operator:
+.................
+
+1.returns type of variable in string format, in a smaller case
+
+  "string","numbers"
+
+
+//type of operator
+
+var str = "hello";
+var n = 100;
+var u;
+var b = true;
+var notanumber = n * u;
+var avg = 100 / 0;
+//object ,null,function types to be discussed later.
+
+console.log(`type of str ${typeof str}`)
+console.log(`type of n ${typeof n}`)
+console.log(`type of b ${typeof b}`)
+console.log(`type of u ${typeof u}`)
+console.log(`type of notanumber ${typeof notanumber}`)
+console.log(`type of avg ${typeof avg}`)
+///////////////////////////////////////////////////////////////////////////////////////////
+
+Operators:
+
+Assignment operators
+Comparison operators
+Arithmetic operators
+Bitwise operators
+Logical operators
+String operators
+Conditional (ternary) operator
+Comma operator
+Unary operators
+Relational operators
+
+///////////////////////////////////////////////////////////////////////////////////////////
+
+Assignement
+
+Assignment	x = y	   x = y
+
+Addition assignment	x += y	x = x + y
+Subtraction assignment	x -= y	x = x - y
+Multiplication assignment	x *= y	x = x * y
+Division assignment	x /= y	x = x / y
+Remainder assignment	x %= y	x = x % y
+Exponentiation assignment	x **= y	x = x ** y
+Left shift assignment	x <<= y	x = x << y
+Right shift assignment	x >>= y	x = x >> y
+Unsigned right shift assignment	x >>>= y	x = x >>> y
+Bitwise AND assignment	x &= y	x = x & y
+Bitwise XOR assignment	x ^= y	x = x ^ y
+Bitwise OR assignment	x |= y	x = x | y
+Logical AND assignment	x &&= y	x && (x = y)
+Logical OR assignment	x ||= y	x || (x = y)
+Logical nullish assignment	x ??= y	x ?? (x = y)
+
+//assignment operator
+
+var x = 10;
+var y = x;
+console.log(`x ${x} y ${y}`);
+
+var myvar = 10;
+console.log(`Myvar value is ${myvar} and its type is ${typeof myvar}`)
+//reassingment/ re initalization
+myvar = "Hello"
+console.log(`Myvar value is ${myvar} and its type is ${typeof myvar}`)
+
+var a = 100;
+var b = 100;
+var c = a + b;
+console.log(`C value is ${c}`)
+var d = 10;
+d = d + 1;
+console.log(`d value is ${d}`)
+d += 1
+console.log(`d value is ${d}`)
+
+///////////////////////////////////////////////////////////////////////////////////////////
+
+Arthimetic Operators;
+.....................
+
+numerical operators
+ +,-,*,/,%
+ ++,--,
+ ** - exponent
+
+//arthimetic 
+
+var x = 100;
+var y = 100;
+console.log(x + y)
+console.log(x - y)
+console.log(x * y)
+console.log(x / y)
+console.log(x % y)
+console.log(x ** 2)
+
+Bitwise operators and shift operators:
+Note : not recommend to overuse in js, js need to convert 64 bit to 32 bit and starts operations.
+
+Logical operators:
+...................
+
+Logical AND (&&)
+
+expr1 && expr2	Returns expr1 if it can be converted to false; otherwise, returns expr2. Thus, when used with Boolean values, && returns true if both operands are true; otherwise, returns false.
+
+Logical OR (||)	expr1 || expr2	Returns expr1 if it can be converted to true; otherwise, returns expr2. Thus, when used with Boolean values, || returns true if either operand is true; if both are false, returns false.
+
+Logical NOT (!)	!expr	Returns false if its single operand that can be converted to true; otherwise, returns true.
+
+Logical !! -  keeps the same value.
+
+//logical operators
+//
+//|| or - based on boolean truth table
+
+var isWorking = true;
+var isEnabled = false;
+var res = isWorking || isEnabled;
+console.log(res);
+//advanced or operator.
+
+var name = "Subramaian";
+
+/**
+ * if first operand(name) is truthy, then result is first operand itself else
+ * second operand
+ */
+
+var message = name || "Sorry";
+
+console.log(message);
+
+var price = 0;
+var todayMinPrice = price || 10;
+
+console.log(todayMinPrice);
+///////////////////////////////////////////////////////////////////////////////
+//And operator is opposit to or operator
+
+var andRes = isWorking && isEnabled
+console.log(andRes);
+
+/**
+ * if first operand(name) is truthy, then result is second operand  else
+ * first operand
+ */
+
+message = name && "Sorry";
+console.log(message);
+todayMinPrice = price && 10;
+console.log(todayMinPrice);
+/////////////////////////////////////////////////////////////////////////////
+
+//inverter !
+
+var reached =true;
+console.log(!reached)
+var mycount =1000;
+console.log(!mycount)
+
+//dont invert !!
+console.log(!!reached)
+console.log(!!mycount)
+
+///////////////////////////////////////////////////////////////////////////////////////
+
+Conditional (ternary) operator
+The conditional operator is the only JavaScript operator that takes three operands. The operator can have one of two values based on a condition. The syntax is:
+
+condition ? val1 : val2
+
+condition would be truthy or falsy
+
+//tenary operators
+
+var isEnabled = true;
+
+var res = isEnabled ? "Enabled" : "Disabled";
+console.log(res)
+
+var name;
+var found = name ? "Found" : "Not Found";
+console.log(found)
+/////////////////////////////////////////////////////////////////////////////////////////
+
+Comparsional operators:
+......................
+
+1. less than <
+2. less than or equal <=
+3. greater than >
+4. greater than or equal >=
+5. ==, === equal
+6. !=,!==
+
+//relational operators
+
+var x = 100;
+var y = 10;
+console.log((x < y) ? "less" : "not less")
+console.log((x > y) ? "great" : "not great")
+// == 
+
+console.log((x == y) ? "equal" : "not equal")
+console.log((x === y) ? "equal" : "not equal")
+
+var a = "10";
+var b = 10;
+//test only value
+console.log((a == b) ? "equal" : "not equal")
+//test type + value : recommended operator ===
+console.log((a === b) ? "equal" : "not equal")
+
+console.log((a != b) ? "equal" : "not equal")
+console.log((a !== b) ? "equal" : "not equal")
+/////////////////////////////////////////////////////////////////////////////////////////////
+
+Advanced operators
+
+1.typeof - to know the type of variable
+2.new  -  to allocate memory ; object creational operator
+3.instance of - to know the parent type
+4. in -  used with collection iterators
+5. "." - object access operators
+6. [] -  used to represent arrays elements &&  used to access object properties
+7.{} -  to represent block of statements
+8. of -  used with for loop
+/////////////////////////////////////////////////////////////////////////////////////////////
+
+Conditional statments and Control Structures:
+..............................................
+
+1.Decision making:
+
+ if
+ if..else
+ if..elseif
+ if ..elseif..else
+ switch...case
+
+statements:
+  break;
+ 
+//if and else
+
+var a = 100;
+var result='';
+if (a > 0) {
+    result = 'positive';
+} else {
+    result = 'NOT positive';
+}
+console.log(result)
+
+..if..else if
+var x = 10;
+
+if (x > 50) {
+    console.log("X is greater than 50")
+
+} else if (x > 5) {
+    /* do something */
+    console.log("X is greater than 5")
+} else {
+    /* do something */
+    console.log("No match found")
+}
+.........................................................................................
 
 
 
+switch (expression) {
 
+  case value1:
+    //Statements executed when the
+    //result of expression matches value1
+    [break;]
+  case value2:
+    //Statements executed when the
+    //result of expression matches value2
+    [break;]
+  ...
+  case valueN:
+    //Statements executed when the
+    //result of expression matches valueN
+    [break;]
+  [default:
+    //Statements executed when none of
+    //the values match the value of the expression
+    [break;]]
+}
 
+var expr = 'Papayas';
+switch (expr) {
+    case 'Oranges':
+        console.log('Oranges are $0.59 a pound.');
+        break;
+    case 'Mangoes':
+    case 'Papayas':
+        console.log('Mangoes and papayas are $2.79 a pound.');
+        // expected output: "Mangoes and papayas are $2.79 a pound."
+        break;
+    default:
+        console.log(`Sorry, we are out of ${expr}.`);
+}
 
+//////////////////////////////////////////////////////////////////////////////////////////
 
+Iterators -  loops;
 
+1.for
+2.while
+3.do..while
+4.for..in
+5.for..of
+
+var str = '';
+
+for (var i = 0; i < 9; i++) {
+    str = str + i;
+}
+
+console.log(str);
+
+var n = 0;
+
+while (n < 10) {
+    console.log(n)
+    n++;
+}
+
+console.log(n);
+// expected output
+
+var result = '';
+var i = 0;
+
+do {
+    i = i + 1;
+    result = result + i;
+} while (i < 5);
+
+console.log(result);
+// expected result: "12345"
 
 
 
