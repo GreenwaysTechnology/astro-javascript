@@ -1,5 +1,4 @@
 //
-
 function Employee(id = 0, name = '', salary = 0) {
     //object properties
     this.id = id // 1;
