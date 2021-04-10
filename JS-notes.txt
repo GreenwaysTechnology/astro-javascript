@@ -1007,9 +1007,467 @@ function sum(...numbers) {
 sum(1, 2, 4);
 sum(1, 2, 3, 4, 5, 6, 7, 8)
 
+//////////////////////////////////////////////////////////////////////////////////////////////
+
+What(literal) can be passed as parameter?
+
+All literals can be passed as parameter.
+ -strings,numbers,boolean,undefined,function,null,object,nan,infinity.
+
+
+functions types:
+
+1.user defined functions
+  eg ; sayHello,add,compute
+2.global built in functions
+   functions are defined by js language.
+ parseInt,parseFloat,isNaN,eval,isFinite,encodeURI(),decodeURI...
+
+
+function compute(res) {
+    if (isNaN(res)) {
+        console.log('SOrry computation is failed')
+    } else {
+        console.log(res);
+    }
+}
+var x = 10;
+var y = 20
+compute(x * y)
+x = "$10"
+compute(x * y)
+
+function findAvg(a, b) {
+    var res = a / b;
+    if (res === Infinity) {
+        console.log('div by 0 ')
+    } else {
+        console.log(res);
+    }
+}
+findAvg(10, 2)
+findAvg(10, 0)
+////////////////////////////////////////////////////////////////////////////////////////////
+
+How to return values from the function?
+
+function can return any literal
+///function returns
+
+///function returns
+
+function sayHello() {
+    return 'Hello';
+}
+console.log(sayHello())
+
+function sayHai() {
+    var message = 'hai'
+    return message;
+}
+console.log(sayHai())
+
+function sayGreet() {
+    return;
+}
+console.log(sayGreet())
+
+function add(a = 1, b = 1) {
+    return a + b; //expression
+}
+console.log(add(1, 2))
+
+function validate(username = 'root', password = 'root') {
+    if (username === 'admin' && password === 'admin') {
+        return true;
+    }
+    return;
+}
+validate() ? console.log('success') : console.log('failed')
+validate('admin','admin') ? console.log('success') : console.log('failed')
+
+////////////////////////////////////////////////////////////////////////////////////////////
+
+How to implement recurssive functions?
+fact
+
+function factorial(n) {
+    if ((n === 0) || (n === 1))
+        return 1;
+    else
+        return (n * factorial(n - 1));
+}
+console.log(factorial(5))
+
+
+//////////////////////////////////////////////////////////////////////////////////////////
+
+functional Programming:
+.......................
+
+functional programming is one of the programming style/paradigm. introduced in 1950's.
+
+
+Lambda calculus:
+
+ Lambda calculus (also written as λ-calculus) is a formal system in mathematical logic for expressing computation based on function abstraction and application using variable binding and substitution.
+ It was introduced by the mathematician Alonzo Church in the 1930s as part of his research into the foundations of mathematics.
+
+Lambda calculs Implementation:
+
+The Programming languages which implements "lambda Calculus theory" called "Functional programming".
+
+
+Lambda expressions the programs construction through "functions" -->f()
+
+The languages which implements lambda Calculus
+ ->LISP
+ ->Scheme
+ ->haskell
+
+etc........
+
+style vs pure:
+..............
+  if a pl implements 100% principles of an functional paradigm-lambda calculs, 
+  those languages called "Pure"
+
+  if a pl implements not all principles or partially,   those languages called "style".
+
+
+Functional Programming Principles:
+
+what is function? - 
+  according lambda calculs , function is representation of computation. which receivies input,process it, return it.- unit of operation
+
+-Functions are "first-class citizen” : function abstraction.
+-Functions can be assigned to variables
+-Composition of functions 
+-Higher order functions
+-Functions can be passed as parameters
+-Functions can be returned as a result
+-Functions without side effects (referential transparency) ; pure functions
+-Persistent (immutable) data structures
+-Algebraic data types (sum and product types)
+-Pure functional programming has no loops(for..while), they support only recurrsion
+
+
+Does javascript is pure functional programming language?
+
+No!.
+javascript is "functional style" programming language.
+
+According to functional programming,
+  "functions" are values(literals).
+
+Since function is value(literal) like strings and numbers, can be assigned to a variable
+ eg:
+  var a=10;
+  var name="subramanian"
+  var f = function(){} - valid
+
+Since function is value(literal) like strings and numbers, can be passed around function.
+...........................................................................................
+
+Since function is value(literal) like strings and numbers, can be assigned to a variable.
+That variable can be used to invoke that function.
+
+
+How to declare functions?
+
+//how to declare functions and how to call it.
+
+//way -1 
+function sayHello(name) {
+    console.log('hello', name);
+}
+sayHello('subramanian');
+
+//function is literal. you can assign to a variable.
+var hello = sayHello;
+console.log(hello);
+hello('ram');
+/////////////////////////////////////////////////////////////////////////////
+//inline function declaration.
+//way -2
+var hai = function sayHai(name) {
+    console.log('hi', name);
+};
+hai('subu')
+//sayHai()
+
+//way -3 : anonymous function ; function without name
+var greet = function (name) {
+    console.log('greet', name);
+};
+greet('subu')
+//////////////////////////////////////////////////////////////////////////////////////////////
+
+Function as Parameter:
+....................
+
+functions can be passed as parameter to another function.
+
+//function as parameter to another function.
+
+function add(a, b) {
+    var c = a + b;
+    console.log(c);
+}
+//passing parameters
+//via variables
+var x = 10;
+var y = 10;
+add(x, y);
+//hardcoded values
+add(10, 20)
+//////////////////////////////////////////////////////////////////////////////////
+//hai = greet = 
+function sayGreet(callback) {
+    var status = callback('subramanian');
+    console.log(status);
+}
+//regular function
+function sayHello(name) {
+    console.log('hello', name)
+    return 'done'
+}
+//via variable
+var greet = function (name) {
+    console.log('Hai', name)
+    return 'done'
+};
+sayGreet(greet)
+
+//hardcode values
+sayGreet(function (name) {
+    console.log('hai hai')
+    return 'done'
+});
+sayGreet(sayHello)
+/////////////////////////////////////////////////////////////////////////////////////////////
+
+How to declare reciver function in literal pattern?
+
+
+var sayGreet = function (callback) {
+    var status = callback('subramanian');
+    console.log(status);
+}
+//hardcode values
+sayGreet(function (name) {
+    console.log('hai hai')
+    return 'done'
+});
+
+///////////////////////////////////////////////////////////////////////////////////////////
+
+How to pass more than one parameter as function?
+
+
+// function login(userName, password, success, failure) {
+//     if (userName === 'admin' && password === 'admin') {
+//         //send success result via function to the caller
+//         success(`Login success : ${userName}`)
+//     } else {
+//         failure('Login failed');
+//     }
+// }
+var login = function (userName, password, success, failure) {
+    if (userName === 'admin' && password === 'admin') {
+        //send success result via function to the caller
+        success(`Login success : ${userName}`)
+    } else {
+        failure('Login failed');
+    }
+};
+
+login('admin', 'admin', function (message) {
+    console.log(message)
+}, function (err) {
+    console.log(err)
+});
+
+
+login('foo', 'admin', function (message) {
+    console.log(message)
+}, function (err) {
+    console.log(err)
+});
+/////////////////////////////////////////////////////////////////////////////////////////////
+
+Best practice: test whether you have passed function?
+
+function doStuff(callback) {
+    if (typeof callback === 'function') {
+        callback();
+    } else {
+        console.log('Wrong type ')
+    }
+
+}
+doStuff(function () {
+    console.log('done')
+})
+doStuff('foo')
+//////////////////////////////////////////////////////////////////////////////////////////////
+
+How to return function from another function?
+
+inner functions:
+ function is declared with in another function
+
+
+Note:
+
+any declaration inside function (exect instance members), not visible outside that function
+-local scope.
 
 
 
+function outter() {
+    var myvar='foo'
+    console.log('outter')
+    function inner() {
+        console.log('inner')
+    }
+}
+outter();
+ inner();
+//console.log(myvar)
+
+if you run the above code , you will get error message
+inner();
+^
+
+ReferenceError: inner is not defined
+    at Object.<anonymous> (C:\session\astro\2021\js-apps\src\index.js:20:1)
+    at Module._compile (internal/modules/cjs/loader.js:959:30)
+    at Object.Module._extensions..js (internal/modules/cjs/loader.js:995:10)
+    at Module.load (internal/modules/cjs/loader.js:815:32)
+    at Function.Module._load (internal/modules/cjs/loader.js:727:14)
+    at Function.Module.runMain (internal/modules/cjs/loader.js:1047:10)
+    at internal/main/run_main_module.js:17:11
+
+
+The function is not visible outside, similary the myvar variable.
+
+
+How to call/invoke the innerfunction?
+
+Two soultions:
+
+1.within in outter function
+
+function outter() {
+    var myvar='foo'
+    console.log('outter')
+    function inner() {
+        console.log('inner')
+    }
+    //calling inside outter function
+    inner();
+}
+outter();
+
+2.return the that function outside and call it
+
+way-1
+function outter1() {
+    var myvar = 'foo'
+    console.log('outter')
+    function inner() {
+        console.log('inner')
+    }
+    return inner;
+}
+var res = outter1();
+console.log(res);
+res();
+
+way-2
+
+function outter1() {
+    var myvar = 'foo'
+    console.log('outter')
+    return function inner() {
+        console.log('inner')
+    }
+}
+var res = outter1();
+console.log(res);
+res();
+
+way-3 - return anonymous function
+function outter1() {
+    var myvar = 'foo'
+    console.log('outter')
+    return function () {
+        console.log('inner')
+    }
+}
+var res = outter1();
+console.log(res);
+res();
+
+
+way-4; calling function refactoring
+
+function outter1() {
+    var myvar = 'foo'
+    console.log('outter')
+    return function () {
+        console.log('inner')
+    }
+}
+// var res = outter1();
+// console.log(res);
+// res();
+//refactoring calling syntax
+outter1()();
+
+
+can we pass any parameters to the inner function from outside?
+
+function outter1() {
+    var myvar = 'foo'
+    console.log('outter')
+    return function (name) {
+        console.log('inner',name)
+    }
+}
+var res = outter1();
+res('subramanian');
+//refactoring calling syntax
+outter1()('subramanian');
+
+can inner function return value to outside?
+
+function outter1() {
+    var myvar = 'foo'
+    console.log('outter')
+    return function (name) {
+        return `inner ${name}`;
+    }
+}
+var res = outter1();
+console.log(res('subramanian'));
+//refactoring calling syntax
+console.log(outter1()('subramanian'));
+
+
+can outter function be an variable pattern?
+
+var outter1 = function () {
+    console.log('outter')
+    return function (name) {
+        return `inner ${name}`;
+    }
+};
+var res = outter1();
+console.log(res('subramanian'));
+//refactoring calling syntax
+console.log(outter1()('subramanian'));
 
 
 
