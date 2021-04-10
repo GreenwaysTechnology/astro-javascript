@@ -1468,6 +1468,549 @@ var res = outter1();
 console.log(res('subramanian'));
 //refactoring calling syntax
 console.log(outter1()('subramanian'));
+//////////////////////////////////////////////////////////////////////////////////////////////
+
+functions related concepts:
+..........................
+
+1.async programming
+2.closure
+3.curry functions /higher order function.
+4.recurssive functions
+5.anonmous functions
+6.IIFE functions- immediately invoked function expression.
+7.ES 6 Functions -arrow function.
+
+IIFE:
+ IT is self executing anonmouys function.
+ The function executes itself.
+ It is very usefull for initalization applications.
+
+//IIFE function., no name.
+
+
+(function () {
+    console.log('app is initalied')
+})();
+// iife with params
+
+(function (name = 'default') {
+    console.log(name);
+
+})('foo');
+
+//iife with return value
+
+var result = (function (name = 'default') {
+    return name;
+})('foo');
+console.log(result);
+///////////////////////////////////////////////////////////////////////////////////////
+
+Arrow functions:
+
+An arrow function expression is a compact alternative to a traditional function expression,
+but is limited and cant be used in all situations.
+
+Arrow differences and limitations:
+..................................
+
+1.does not have its own bindings to "this or super".
+2.It should not be used as methods in objects.
+3.It does not have arguments keywords
+4.cant be used as constructors
+5.cant use "yield" keyword within its body.
+
+Basic arrow 
+
+
+//es 5 function expression syntax
+var hai = function () {
+    console.log('hai');
+};
+hai();
+//arrow will replace the above one.
+
+var hello = () => {
+    //function body
+    console.log('hello');
+};
+hello();
+
+//if function body has one line of code, we can remove {}
+hello = () => console.log('hello');
+hello();
+
+///arrow and parameters ; more parameter with default value.
+
+var add = (a = 0, b = 0) => {
+    var result = a + b;
+    console.log('add', result);
+
+};
+add(10, 10);
+///arrow and parameters ; single parameter with out default value,you can remove()
+var getStock = value => console.log(`Stock Value ${value}`)
+getStock(100)
+//////////////////////////////////////////////////////////////
+//arrow functions and return
+var getName = () => {
+    return 'Subramanian';
+};
+console.log(getName())
+//if function has only return statement, you can remove {} and return statement
+getName = () => 'Subramanian';
+console.log(getName())
+
+/////////////////
+//if function recieves single input,without default value and return the same
+var myfunc = input => input;
+console.log(myfunc('hello'))
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+Arrow functions and function as parameter and IIFE Functions
+//function as parameter
+
+// function sayGreet(callback) {
+//     callback();
+// }
+
+var sayGreet = callback => {
+    callback('subramanian');
+}
+var hello = name => console.log('hello', name)
+sayGreet(hello);
+sayGreet(name => console.log('hello arrow'));
+
+/////////////////////////////////////////////////////////////////////////////
+
+// function outter() {
+//     console.log('outer')
+//     return function inner() {
+//         console.log('inner')
+//     }
+// }
+// function outter() {
+//     console.log('outer')
+//  return () => {
+//         console.log('inner')
+//     }   
+// }
+// function outter() {
+//     console.log('outer')
+//     return () => console.log('inner')
+
+// }
+// var outter = () => {
+//     console.log('outer')
+//     return () => console.log('inner')
+// }
+var outter = () => () => console.log('inner')
+outter()();
+
+(() => console.log('app is initalied'))();
+
+((name = 'default') => console.log(name))('foo');
+var result = ((name = 'default') => name)('foo');
+console.log(result);
+/////////////////////////////////////////////////////////////////////////////////////////////
+
+Object based(oriented) Programming:
+...................................
+
+What is oo programming?
+
+ OO is another paradigm/style of writing application.
+
+What is Object?
+
+ Views of Object :
+
+1.Domain - Problem
+    Object could be anything, but that should be relavant to the problem domain - graddy booch.
+
+eg:
+ if you are building health care app, marks are not relavent to the domain. according to
+health care students marks are not object.
+
+Object Oriented Principles:
+...........................
+
+1.Abstraction
+2.Encapsulation
+3.Hierarchy
+4.Typing
+5.Modularity
+----------------------
+6.Concurrency
+7.Persistency
+
+    
+2.implementation
+
+-What is object?
+ Object is memory represenation.
+ Object is collection of properties
+ Property could be variables having primitive values, methods(functions)
+ Property could be another object
+
+Pure Object oriented Programming languages(c++,java,C#) class based languages.
+
+class is fundmental representation  of object properties in source code.
+Without class no object created.
+////////////////////////////////////////////////////////////////////////////////////////////
+
+Stages of Object creation:
+..........................
+
+0. source code
+  we classes to represent object properties
+ eg:
+  Customer.java
+   class Customer{
+       int id;
+       String name;
+       public double calculateTax(){
+           return 100.89;
+       }
+   }
+1.compile time
+  Customer.class
+
+  class Customer{
+       int id;
+       String name;
+       public double calculateTax(){
+           return 100.89;
+       }
+     
+   }
+  +
+  extra code
+     memory allocation information table- Virtual table-array of information.
+
+  
+2.runtime time
+
+  Customer.class--loaded into runtime----Run time will start allocating memory
+  --Object(Runtime representation of class)
+
+
+Once object is created we can do three things
+
+1. we set values on object properties
+2. we get values on object properties
+3. We can execute methods on object
+..............................................................................................
+
+Static and dynamic language:
+............................  
+
+static languages fixes object layout during compile time itself, using virtual table.
+during runtime we cant alter the object layout.
+
+dynamic languages dont have compile time object layout, does not use "Virtual table"
+rather who uses datastructures -  dictionary(key-value) , during runtime we can alter object
+
+
+Js and Objects:
+
+1.js does not use classes for creating object.uses functions
+2.js objects are dynamic
+3.js objects are allocated inside heap memory of js engine.
+4.IN js everthing object almost.
+    -Js code itself object - context - Execution Context.
+5.objects can be created in many ways
+
+   1.using functions
+   2.using literals
+   3.using Object.create method
+   4.using es 6 class
+
+Object Properties:
+
+ 1.variables - instance variables
+ 2.methods - instance methods
+ 3.constructors - function to initalize the variables.
+
+how to declare object properties?
+
+ this keyword  - inside function
+ super keyword
+ without any keyword.
+
+
+Note: 
+
+ functions are first class citizens 
+   -used to encapsulate logic -
+   -used to encapslate object properties
+
+how we can change function rolls
+   function myfun(){}
+
+   myfun()---regular execution
+  new myfun() - constructor execution- object creation.
+
+Recommendations:
+
+ 1.in case if function is used for logic , naming convention could be
+    verb+Noun -  doStuff() / verb - calculate().
+ 2.in case if function is used for object , naming convention could be
+    Noun-  Employee,Customer
+
+
+..........................................................................................
+
+How to create object?
+//
+
+function Employee() {
+    //object properties
+    this.id = 1;
+    this.name = 'Subramanian';
+    this.salary = 10000;
+
+}
+//emp is reference variable,points the object location.
+var emp = new Employee();
+console.log(emp)
+
+how to access/get object properties?
+
+we have operator
+
+ "." operator
+ "[]" operator
+
+//
+
+function Employee() {
+    //object properties
+    this.id = 1;
+    this.name = 'Subramanian';
+    this.salary = 10000;
+
+}
+//emp is reference variable,points the object location.
+var emp = new Employee();
+console.log(emp)
+console.log(`Id ${emp.id} name ${emp.name} Salary ${emp.salary}`)
+console.log(`Id ${emp['id']} name ${emp['name']} Salary ${emp['salary']}`)
+
+how to define methods?
+//
+
+function Employee() {
+    //object properties
+    this.id = 1;
+    this.name = 'Subramanian';
+    this.salary = 10000;
+    //methods : via function
+    this.calculateLeave = function (leave = 1) {
+        return leave;
+    }
+
+
+}
+//emp is reference variable,points the object location.
+var emp = new Employee();
+console.log(emp)
+console.log(`Id ${emp.id} name ${emp.name} Salary ${emp.salary} leave ${emp.calculateLeave(12)}`)
+console.log(`Id ${emp['id']} name ${emp['name']} Salary ${emp['salary']}`)
+
+/////////////////////////////////////////////////////////////////////////////////////////////
+
+How many objects you can create out of single function?
+
+many objects, subject to memory .
+
+Each object has its own memory location.
+
+//
+
+function Employee() {
+    //object properties
+    this.id = 1;
+    this.name = 'Subramanian';
+    this.salary = 10000;
+    //methods : via function
+    this.calculateLeave = function (leave = 1) {
+        return leave;
+    }
+
+
+}
+//emp is reference variable,points the object location.
+var emp = new Employee()
+console.log(`Id ${emp.id} name ${emp.name} Salary ${emp.salary} leave ${emp.calculateLeave(12)}`)
+var emp1 = new Employee()
+console.log(`Id ${emp1.id} name ${emp1.name} Salary ${emp1.salary} leave ${emp1.calculateLeave(12)}`)
+
+///////////////////////////////////////////////////////////////////////////////////////////
+
+How to reuse one reference to create multiple objects and how to use them?.
+
+Null:
+Null is object, having no properties.
+used to identicate that the reference variable is going to hold objects in futures
+used to report meaningfull errors
+
+//
+
+function Employee() {
+    //object properties
+    this.id = 1;
+    this.name = 'Subramanian';
+    this.salary = 10000;
+    //methods : via function
+    this.calculateLeave = function (leave = 1) {
+        return leave;
+    }
+
+
+}
+var emp = null;
+console.log(typeof emp);
+emp = new Employee()
+console.log(`Id ${emp.id} name ${emp.name} Salary ${emp.salary} leave ${emp.calculateLeave(12)}`)
+emp = new Employee()
+console.log(`Id ${emp.id} name ${emp.name} Salary ${emp.salary} leave ${emp.calculateLeave(12)}`)
+emp = new Employee()
+console.log(`Id ${emp.id} name ${emp.name} Salary ${emp.salary} leave ${emp.calculateLeave(12)}`)
+/////////////////////////////////////////////////////////////////////////////////////////////
+
+State initalization:(instance variable)
+.......................................
+
+1.hardcoded inside function
+    this.id = 1;
+    this.name = 'Subramanian';
+    this.salary = 10000;
+
+2.after object creation
+var emp = null;
+console.log(typeof emp);
+emp = new Employee()
+console.log(`Id ${emp.id} name ${emp.name} Salary ${emp.salary} leave ${emp.calculateLeave(12)}`)
+//state initalization
+emp.id = 9000;
+emp.name = 'Ram';
+emp.salary = 88888;
+console.log(`Id ${emp.id} name ${emp.name} Salary ${emp.salary} leave ${emp.calculateLeave(12)}`)
+
+
+3.during object creation; consturctor parameters
+
+//
+
+function Employee(id = 1, name = 'Subramanian', salary = 10000) {
+    //object properties
+    this.id = id // 1;
+    this.name = name //'Subramanian';
+    this.salary = salary //10000;
+    //methods : via function
+    this.calculateLeave = function (leave = 1) {
+        return leave;
+    }
+
+
+}
+var emp = null;
+emp = new Employee()
+console.log(`Id ${emp.id} name ${emp.name} Salary ${emp.salary} leave ${emp.calculateLeave(12)}`)
+emp = new Employee(888, 'foo', 87666) //constructor parameters
+console.log(`Id ${emp.id} name ${emp.name} Salary ${emp.salary} leave ${emp.calculateLeave(12)}`)
+emp = new Employee(888, 'foo', 87666) //constructor parameters
+emp.id = 1200
+emp.name = 'bar';
+console.log(`Id ${emp.id} name ${emp.name} Salary ${emp.salary} leave ${emp.calculateLeave(12)}`)
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+Can Object return instance variables via instance methods?
+
+Yes
+//
+
+function Employee(id = 0, name = '', salary = 0) {
+    //object properties
+    this.id = id // 1;
+    this.name = name //'Subramanian';
+    this.salary = salary //10000;
+    this.bonus = 2.5;
+    //methods : via function
+    this.calculateBonus = function () {
+        return this.salary * 2.5 / 100
+    }
+    this.calculateAnnualSalary = function () {
+        return this.calculateBonus() + this.salary;
+    }
+}
+var emp = null;
+emp = new Employee(1, 'Subramanian', 49500)
+console.log(`Id ${emp.id} name ${emp.name} Salary ${emp.salary} Bonus ${emp.calculateBonus()} Annual salary ${emp.calculateAnnualSalary()}`)
+
+///////////////////////////////////////////////////////////////////////////////////////////
+Encasulation:
+
+js is very weak by providing  code sharing feature.
+
+if you declare any thing inside function, you cant access outside with help of var declartion /regular function declaration.
+ if you do so inside object template, then those things are called private variables/methods
+
+
+//
+
+function Employee(id = 0, name = '', salary = 0) {
+    //object properties
+    this.id = id // 1;
+    this.name = name //'Subramanian';
+    this.salary = salary //10000;
+    //private variable
+    var bonus = 2.5;
+    //methods : via function
+    this.calculateBonus = function () {
+        return computeBonus();
+    }
+    this.calculateAnnualSalary = function () {
+        return this.calculateBonus() + this.salary;
+    }
+    var tempSalary = this.salary;
+    //private function
+    // function computeBonus() {
+    //     console.log(this.salary);
+    //     return this.salary * bonus / 100
+    // }
+    function computeBonus() {
+        return tempSalary * bonus / 100
+    }
+}
+var emp = null;
+emp = new Employee(1, 'Subramanian', 49500)
+console.log(`Id ${emp.id} name ${emp.name} Salary ${emp.salary} Bonus ${emp.calculateBonus()} Annual salary ${emp.calculateAnnualSalary()}`)
+///////////////////////////////&&&&&&&&&&&&&&&&&&&&&&&&&&////////////////////////////////////
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
