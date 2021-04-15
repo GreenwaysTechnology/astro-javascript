@@ -1,32 +1,12 @@
+//strings
+//length property
+var str = 'Life, the universe and everything. Answer:';
 
-//shared property
-class Product {
-    constructor(id) {
-        this.id = id;
-    }
-}
-Product.prototype.price = 100;
-Product.prototype.qty = 10;
+console.log(`${str} ${str.length}`);
+console.log(`The character at index ${4} is ${str.charAt(4)}`);
 
-class Computer extends Product {
-    constructor(id = 0, name) {
-        super(id)
-        this.name = name;
-    }
-}
+str = 'The quick brown fox jumps over the lazy dog.';
 
-
-// var product = null;
-// product = new Product(23);
-// console.log(product.id, product.price, product.qty)
-
-// product = new Product(34);
-// console.log(product.id, product.price, product.qty)
-
-
-var product = null;
-product = new Computer(23);
-console.log(product.id, product.price, product.qty)
-
-product = new Computer(34);
-console.log(product.id, product.price, product.qty)
+var words = str.split(' ');
+console.log(words)
+console.log(str.toUpperCase())

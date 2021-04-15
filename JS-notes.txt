@@ -2609,6 +2609,444 @@ console.log(product.id, product.price, product.qty)
 
 product = new Computer(34);
 console.log(product.id, product.price, product.qty)
+/////////////////////////////////////////////////////////////////////////////////////////
+
+Polymorphism:
+
+Js does not support polymorphism like c++.
+
+compile time polymorphism is supported in different way
+runtime time polymorphism is supported in different way
+   -"Scope Chain".
+
+method redefining:
+..................
+
+
+class Account {
+    constructor() {
+
+    }
+    //method
+    deposit() {
+        return 100.0;
+    }
+}
+class SavingsAccount extends Account {
+    constructor() {
+        super();
+    }
+    //redefine method
+    deposit() {
+        return 1000.00 * super.deposit();
+    }
+}
+var sb = new SavingsAccount();
+console.log(sb.deposit())
+////////////////////////////////////////////////////////////////////////////////////////////
+static variables:
+
+ES 6 supports static variables and methods
+
+
+class Message {
+    static SUCCESS = 'success';
+    static WARNING = 'Warning';
+    static FAILED = 'Failed'
+    constructor() {
+
+    }
+    static doStuff(){
+        return 'static variables'
+    }
+}
+console.log(Message.SUCCESS,Message.doStuff())
+//////////////////////////////////////////////////////////////////////////////////////////////
+
+Object Destruturing:
+....................
+
+-functions and objects
+
+1.how to pass objects as parameter to function.
+
+
+
+//without object destructuring
+// function printEmployee(employee) {
+//     //print employee information
+//     console.log(`Id ${employee.id}`)
+//     console.log(`Name ${employee.name}`)
+//     console.log(`Salary ${employee.salary}`)
+// }
+//with object destructuring
+// function printEmployee(employee) {
+//     //print employee information
+//     //destructuring syntax
+//     var { id, name, salary } = employee;
+//     console.log(`Id ${id}`)
+//     console.log(`Name ${name}`)
+//     console.log(`Salary ${salary}`)
+// }
+
+// function printEmployee({ id, name, salary }) {
+//     //print employee information
+//     //destructuring syntax
+//     //    var { id, name, salary } = employee;
+//     console.log(`Id ${id}`)
+//     console.log(`Name ${name}`)
+//     console.log(`Salary ${salary}`)
+// }
+var printEmployee = ({ id, name, salary }) => {
+    //print employee information
+    //destructuring syntax
+    //    var { id, name, salary } = employee;
+    console.log(`Id ${id}`)
+    console.log(`Name ${name}`)
+    console.log(`Salary ${salary}`)
+};
+var employee = {
+    id: 1,
+    name: 'subramanian',
+    salary: 2000
+};
+printEmployee(employee);
+
+
+nested object destructuring:
+............................
+var printEmployee = ({ id, name, salary, address: { city } }) => {
+    //print employee information
+    //destructuring syntax
+    //    var { id, name, salary,address:{city} } = employee;
+    console.log(`Id ${id}`)
+    console.log(`Name ${name}`)
+    console.log(`Salary ${salary}`)
+    // console.log(`City  ${address.city}`)
+    console.log(`City  ${city}`)
+
+};
+
+var employee = {
+    id: 1,
+    name: 'subramanian',
+    salary: 2000,
+    address: {
+        city: 'Coimbatore'
+    }
+};
+printEmployee(employee);
+//////////////////////////////////////////////////////////////////////////////////////////////
+
+How to return object with dynamic values with help of destructuring...
+
+//
+
+// function getStock() {
+//     return {
+//         id: 1,
+//         symbol: 'GOOGLE',
+//         qty: 100,
+//         price: 1000
+//     };
+// }
+// console.log(getStock())
+
+// function getStock(id = 1, symbol = 'GOOGLE', qty = 100, price = 1000) {
+//     return {
+//         id: id,
+//         symbol: symbol,
+//         qty: qty,
+//         price: price
+//     };
+// }
+//destructuring
+// function getStock(id = 1, symbol = 'GOOGLE', qty = 100, price = 1000) {
+//     //if key:locavariable is same- key:value is same, make it one
+//     return {
+//         id,
+//         symbol,
+//         qty,
+//         price
+//     };
+// }
+var getStock = (id = 1, symbol = 'GOOGLE', qty = 100, price = 1000) => ({
+    id,
+    symbol,
+    qty,
+    price
+});
+
+console.log(getStock())
+console.log(getStock(2, 'MICROSOFT', 10000, 1900))
+////////////////////////////////////////////////////////////////////////////////////////////
+ES 6 class properties destructuring:
+....................................
+
+class TodoService {
+    constructor() {
+
+    }
+    findAll() {
+        return 'findAll todos'
+    }
+    save() {
+        return 'save todos'
+    }
+    remove() {
+        return 'remove todos'
+    }
+    update() {
+        return 'update todos'
+    }
+}
+var todo = new TodoService();
+console.log(todo.findAll(), todo.save(), todo.remove(), todo.update());
+
+var { findAll, save, remove, update } = new TodoService();
+console.log(findAll(), save(), remove(), update());
+
+////////////////////////////////////////////////////////////////////////////////////////////
+
+methods inside literal object using destructuring
+.................................................
+
+
+var config = {
+    setConfig: function () {
+        return 'config'
+    },
+    //es 6 syntax
+    setNewConfig() {
+        return 'new Config'
+    }
+};
+//////////////////////////////////////////////////////////////////////////////////////////////
+                                        Objects
+//////////////////////////////////////////////////////////////////////////////////////////////
+
+Types of Objects:
+
+1.custom objects : created by programmers using constructors,literals
+2.builtin object :many objects are provided by javascript language.
+
+
+Builtin Objects:
+
+Types of builtin objects
+
+1.POJO -  plan old javascript objects
+2.DOM Objects - related to HTML and browser objects
+
+
+POJOS:
+......
+1.Object
+2.Wrapper Objects
+3.Math
+4.Date
+5.Array
+6.JSON
+7.Promise
+8.XHR
+9.Websocket
+etc...
+
+1.Object:
+
+-Object is core meta object in javascript.
+-Object is super most parent class in javascript,methods , properties defined in this will be 
+ available in all objects.
+-Object provides some very usefull utility methods.
+
+how to create object?
+ with help of function/class/literals
+ without these can we object?
+  yes , you by calling Object class Constructor.
+
+
+//object creations
+
+//1
+function Employee() {
+
+}
+var emp = new Employee()
+
+//2.
+class Customer {
+
+}
+var cust = new Customer();
+
+//3
+var product = {
+    id: 1
+}
+
+//4
+var stock = new Object();
+stock.id = 1;
+stock.symbol = 'google';
+console.log(stock.id, stock.symbol)
+
+methods: instance methods,static
+
+
+//object creations
+
+Object.prototype.toString = function(){
+    return `My object`
+}
+
+//1
+function Employee() {
+
+}
+var emp = new Employee()
+console.log(emp.toString())
+
+//2.
+class Customer {
+
+}
+var cust = new Customer();
+console.log(cust.toString())
+
+//3
+var product = {
+    id: 1
+}
+console.log(product.toString())
+
+//4
+var stock = new Object();
+stock.id = 1;
+stock.symbol = 'google';
+console.log(stock.id, stock.symbol)
+
+static methods:
+...............
+//object class usefull methods
+
+//Object.assign- return new object; immutablity
+
+function updateProfile(city, profile) {
+
+    //profile.city = city:cloning process from profile to {}
+    return Object.assign({}, profile, { city })
+}
+var profile = {
+    id: 1,
+    name: 'ram',
+    city: 'delhi'
+}
+var res = null
+res = updateProfile('coimbatore', profile)
+console.log(res);
+////////////////////////////////////////////////////////////////////////////////////////////////
+In general objects are modifiable, what if i want to restrict that?
+
+-update restrictions
+-remove restrictions
+-add restrictions
+
+
+//stop updating
+var emp = {
+    id: 1,
+    name: 'subramanian',
+    city: 'coimbatore'
+}
+Object.defineProperty(emp, 'id', {
+    writable: false
+});
+console.log('before update')
+console.log(emp)
+emp.id = 90;
+console.log('after update')
+console.log(emp)
+//how to prevent adding new properties
+var cust = {
+    id: 1,
+    name: 'subramanian'
+};
+console.log('before add')
+console.log(cust)
+Object.freeze(cust);
+console.log('after add')
+cust.city = 'coimbatore'
+console.log(cust)
+
+//how to prevent deleting any properties 
+var stock = {
+    id: 1,
+    value: 100,
+    qty: 900
+}
+Object.seal(stock);
+console.log('before delete')
+console.log(stock)
+delete stock.qty;
+console.log('after delete')
+console.log(stock)
+////////////////////////////////////////////////////////////////////////////////////////////
+
+Wrapper objects:
+ In js everything is object including numbers,strings,booleans,function.
+
+Wrapper Object is representation of primitives values.
+
+Why wrapper Objects?
+ For performing some very usefull operations.
+
+How to create string object?
+
+var a ="hello" //object is created internally
+var a = new String("hello") - js never recommends this pattern.
+
+String Object and its methods:
+..............................
+
+//strings
+//length property
+var str = 'Life, the universe and everything. Answer:';
+
+console.log(`${str} ${str.length}`);
+console.log(`The character at index ${4} is ${str.charAt(4)}`);
+
+str = 'The quick brown fox jumps over the lazy dog.';
+
+var words = str.split(' ');
+console.log(words)
+console.log(str.toUpperCase())
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
