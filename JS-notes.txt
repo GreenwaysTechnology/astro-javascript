@@ -1992,13 +1992,653 @@ emp = new Employee(1, 'Subramanian', 49500)
 console.log(`Id ${emp.id} name ${emp.name} Salary ${emp.salary} Bonus ${emp.calculateBonus()} Annual salary ${emp.calculateAnnualSalary()}`)
 ///////////////////////////////&&&&&&&&&&&&&&&&&&&&&&&&&&////////////////////////////////////
 
+Hierachy:
+ Object relationship. In applications objects collabrate each other.How objects can share their code(data,methods).
 
+Types of Hierachy:
+1.HAS-A - Composition/association
+2.IS-A  -  Inheritance.
 
+//has a 
 
+function Phone(mobileno = "1234567890") {
+    this.mobileno = mobileno
+}
 
+function Address(doorno = "doorno", street = "street", city = "city", state = "state", zip = "zip", mobileno = new Phone()) {
+    this.doorno = doorno;
+    this.street = street;
+    this.city = city;
+    this.state = state;
+    this.zip = zip;
+    this.mobileno = mobileno;
+}
 
+function Employee(id = 0, name = "defaultName", salary = 0.0, address = new Address()) {
+    this.id = id;
+    this.name = name;
+    this.salary = salary;
+    //address - doorno,street,city,state,zipcode-has-a 
+    this.address = address;
+}
+//how to associate objects
 
+var emp = null;
+
+emp = new Employee();
+console.log(emp);
+
+var phone = new Phone("9003407867")
+var address = new Address("10/5", "gandhi street", "Coimbatore", "Tamil Nadu", "600 001", phone)
+emp = new Employee(1, "Subramanian", 1000, address);
+console.log(emp);
+
+emp = new Employee(1, "Subramanian", 1000, new Address("10/5", "gandhi street", "Coimbatore", "Tamil Nadu", "600 001", new Phone("9003407867")))
+
+/////////////////////////////////////////////////////////////////////////////////////
   
+IS-A: Inheritance:
+.................
+
+What is inheritance?
+
+  It is type of relationship between objects.
+  It is relatiship type.
+
+Why inhiertance?
+  ->To achive high degree of code resuablity.
+    ->code- variables,functions -Object(variables+methods) : classes,interfaces(java)
+  ->Keep code in one object and share across mutliple objects without redefining it
+
+Java script inheritance is completly different from "c++/java" based languages.
+
+"C++/java" inheritance is called "classical inheritance" , where javascript inheritance
+is called "Prototypical inheritance".
+
+classical vs prototypical:
+.........................
+
+1.classical inheritance is "class" based inheritance.
+   inheritance is decided during compile time.
+
+eg: java
+source code
+
+A.java
+class A{
+  //object properties
+  void doStuff(){
+  }
+}
+B.java
+class B extends A {
+
+}
+
+compiled code:
+A.class
+class A{
+  //object properties
+  void doStuff(){
+  }
+}
+B.class
+class B extends A {
+ //object properties
+  void doStuff(){
+  }
+}
+
+2.prototypical inheritance is "object" based inheritance.
+
+Code sharing happens during runtime only.
+
+Object A (code) ------ Object B  -> try to access Object A property from b.
+
+Javascript and "prototypical  inheritance":
+...........................................
+
+Prototype:
+
+  Every object, when is created, receives its prototype. If the prototype is not set explicitly, objects receive default prototype as their inheritance object.
+
+
+The prototype objects are used to implement inheritance with the mechanism of 
+"dynamic dispatch-property lookup"
+
+A prototype is a "delegation object" used to implement prototype-based inheritance.
+
+Delegation/Proxy Design pattern:
+...............................
+
+Use case 1
+The job is not done by the Program(Object) itself rather dispatch/delegates to other objects
+ eg: async arch.
+
+Use case 2
+In js Prototype is delegation object used for shared properties.(Inheritance).
+ This type of inheritance is called as "Prototypical  inheritance"
+////////////////////////////////////////////////////////////////////////////////////////////
+
+How to verify the Default Prototype Object?
+
+
+function Employee(id = 0, name = "foo") {
+    this.id = id;
+    this.name = name;
+}
+var emp = new Employee();
+console.log(emp);
+
+Test this code in browser.
+
+Employee
+id: 0
+name: "foo"
+__proto__:
+constructor: ƒ Employee(id = 0, name = "foo")
+__proto__:
+constructor: ƒ Object()
+hasOwnProperty: ƒ hasOwnProperty()
+isPrototypeOf: ƒ isPrototypeOf()
+propertyIsEnumerable: ƒ propertyIsEnumerable()
+toLocaleString: ƒ toLocaleString()
+toString: ƒ toString()
+valueOf: ƒ valueOf()
+__defineGetter__: ƒ __defineGetter__()
+__defineSetter__: ƒ __defineSetter__()
+__lookupGetter__: ƒ __lookupGetter__()
+__lookupSetter__: ƒ __lookupSetter__()
+get __proto__: ƒ __proto__()
+set __proto__: ƒ __proto__()
+
+
+Prototype chain: 
+................
+    A prototype chain is a finite chain of objects used to implement inheritance and shared properties.
+
+  Employee ----->Prototype-----Object----->null
+
+
+How to share code in Prototype and how to share it across multiple objects.
+
+
+function Employee(id = 0, name = "foo") {
+    this.id = id;
+    this.name = name;
+}
+var emp = new Employee();
+
+//
+console.log(`Id ${emp.id}`);
+console.log(`Name ${emp.name}`);
+//?
+console.log(`Salary ${emp.salary}`);
+
+when you run the above code , you will get output like below.
+
+Id 0
+Name foo
+Salary undefined
+
+how salary got undefined?
+
+Delegation: a mechanism used to resolve a property in the inheritance chain. The process happens at runtime, hence is also called dynamic dispatch
+
+"The rule is very simple:
+   "if a property is not found in the object itself, there is an attempt to resolve it in the prototype; in the prototype of the prototype, etc. — until the whole prototype chain is considered."
+
+how to add propery in the current object?
+
+inside object template
+
+function Employee(id = 0, name = "foo") {
+    this.id = id;
+    this.name = name;
+}
+but js is dynamic language : you can add,update,delete,iterate properties during runtime, even
+after object is created : "Object Augmentation".
+//?
+//object augmentation: add property
+emp.salary = 10000;
+
+//object augmentation: update property
+emp.name ="subramanian"
+
+add vs update:
+...............
+
+ if property exits in the chain, update happens, if not then add will happen.
+
+
+How to delete property? using delete operator.
+
+delete emp.department;
+*******************************************************************************************
+
+Shared Properties:
+...................
+
+ Properties can be shared across multiple "instances"
+
+instance keeps its own data.
+
+lets assume if i create 10 instance out of "Employee" , each instance data will be different.
+
+
+
+function Employee(id=0,name="foo"){
+    this.id=id;
+    this.name = name;
+}
+//create two instances
+
+var emp1 = new Employee();
+emp1.id =1000;
+emp1.name="Subramanian"
+console.log("employee 1 data")
+console.log(`Id ${emp1.id}`);
+console.log(`Name ${emp1.name}`);
+
+var emp2 = new Employee();
+emp2.id =22222;
+emp2.name="Ram"
+console.log("employee 2 data")
+console.log(`Id ${emp2.id}`);
+console.log(`Name ${emp2.name}`);
+
+
+i want to have common data(Shared Properties) for both instances
+................................................................
+
+You have to add properties inside "Prototype" Object.
+
+How to get Prototype Object?
+
+Function.prototype
+
+
+function Employee(id = 0, name = "foo") {
+    this.id = id;
+    this.name = name;
+    this.bouns = 999;
+}
+
+//get Prototype of employee
+console.log(Employee.prototype)
+
+//augment Prototype Object
+Employee.prototype.salary = 900.00;
+Employee.prototype.calculateBonus = function () {
+    return this.bouns;
+}
+Employee.prototype.calculateSalary = function () {
+    return this.salary * 100;
+}
+//create two instances
+var emp1 = new Employee();
+emp1.id = 1000;
+emp1.name = "Subramanian"
+console.log("employee 1 data")
+console.log(`Id ${emp1.id}`);
+console.log(`Name ${emp1.name}`);
+console.log(`Salary ${emp1.salary}`);
+console.log(`Bouns ${emp1.calculateBonus()}`);
+console.log(`totalsalary ${emp1.calculateSalary()}`);
+
+
+
+var emp2 = new Employee();
+emp2.id = 22222;
+emp2.name = "Ram"
+console.log("employee 2 data")
+console.log(`Id ${emp2.id}`);
+console.log(`Name ${emp2.name}`);
+console.log(`Salary ${emp2.salary}`);
+console.log(`Bouns ${emp2.calculateBonus()}`);
+console.log(`totalsalary ${emp2.calculateSalary()}`);
+
+Lookup chain:
+Prop--->parent 1--->parent 2--->parent 3--->parent n-- | null
+
+object.__proto__:Object
+           |
+           object.__proto__:Object
+  	   |
+	           object.__proto__:null
+
+If property not found any object in the chain, it will return undefined.
+ obj.x--->not p-->not p-->Object-->undefined
+/////////////////////////////////////////////////////////////////////////////////////////
+
+Explicit inheritance:
+
+ what if i dont want my parent object would be "Prototype".
+
+eg:
+  Create Class SavingsAccount---inherit---ACCOUNT---Prototype----Object
+
+If you want link two objects 
+  ->__proto__ you can use but it is not ECMA Standard
+  ->Object.create is utilty api used to link two objects -ECMA     Standard
+
+
+..................................................................................
+
+How to link two objects:
+
+Child.prototype  = Object.create(Parent.prototype)
+//linking objects: inheritance;
+
+//base class 
+function Person(name = 'default') {
+    console.log('Person is called')
+    this.name = name;
+}
+Person.prototype.sayGreet = function () {
+    return 'greet'
+}
+//child class
+function Employee(name) {
+    //calling super class constructor.
+    Person.call(this,name); //binding base class and child class
+    console.log('Employee is called')
+}
+//Linking Objects : establishing inheritance:
+Employee.prototype = Object.create(Person.prototype);
+
+var emp = new Employee("Subramanian");
+console.log(emp.name);
+console.log(emp.sayGreet())
+
+
+var emp1 = new Employee();
+console.log(emp1.name);
+console.log(emp1.sayGreet())
+//////////////////////////////////////////////////////////////////////////////////////////////
+
+Object creation using literal Pattern:
+......................................
+
+1.no function is used to create object
+2.object can have properties and methods
+3.literal objects dont have prototypes.
+4.literal objects can be inherited, default base object is "object".
+5.litreal objects can be nested- has-a.
+6.literal objects do have constructors.
+
+syntax:
+
+var refVariable = {
+ prop1:literal,
+ prop2:literal,
+ etc....
+};
+
+
+
+var emp = {
+    id: 1,
+    name: 'subramanian',
+    salary: 1000,
+    calculateSalary: function () {
+        return this.salary * 10;
+    }
+};
+console.log("Literal Object details")
+console.log(`id ${emp.id}`)
+console.log(`name ${emp.name}`)
+console.log(`Salary ${emp.salary}`)
+console.log(`Total Salary ${emp.calculateSalary()}`)
+
+
+//state initalization; no constructors
+
+var emp = {
+    id: 1,
+    name: 'subramanian',
+    salary: 1000,
+    calculateSalary: function () {
+        return this.salary * 10;
+    }
+};
+
+emp.name = 'karthik'
+emp.salary = 9000;
+console.log("Literal Object details")
+console.log(`id ${emp.id}`)
+console.log(`name ${emp.name}`)
+console.log(`Salary ${emp.salary}`)
+console.log(`Total Salary ${emp.calculateSalary()}`)
+/////////////////////////////////////////////////////////////////////////////////////////////
+How to implement hierachy?
+
+//has-a ; nested object
+
+var emp = {
+    id: 1,
+    name: 'subramanian',
+    salary: 1000,
+    address: {
+        street: '10th',
+        city: 'coimbatore',
+        phone: {
+            mobileno: '900897878'
+        }
+    },
+    calculateSalary: function () {
+        return this.salary * 10;
+    }
+};
+
+console.log("Literal Object details")
+console.log(`id ${emp.id}`)
+console.log(`name ${emp.name}`)
+console.log(`Salary ${emp.salary}`)
+console.log(`Address ${emp.address.city} ${emp.address.phone.mobileno}`)
+console.log(`Total Salary ${emp.calculateSalary()}`)
+
+/////////////////////////////////////////////////////////////////////////////////////////////
+
+How to implement is-a relationship in literal object?
+
+-parent object
+  unlike functions, literals has no prototype object.
+  Immediate parent object is "Object".
+
+
+
+var parent = {
+    color: 'red'
+}
+var child = {
+    size: 10
+}
+child.__proto__ = parent;
+console.log(child.size, child.color);
+
+var product = {
+    color: 'pink'
+}
+var item = Object.create(product);
+item.size = 100;
+item.price = 98;
+item.qty = 90;
+console.log(item.color,item.size,item.price,item.qty)
+///////////////////////////////////////////////////////////////////////////////////////////////
+                                   ES 6 Classes
+/////////////////////////////////////////////////////////////////////////////////////////////
+
+1.ES 6 classes are alternate syntax for function based objects.
+2.ES 6 classes are simple to use, abstracts many complixites
+3.It is easy to understand , debug,clear code for oo developers
+4.All es 6 classes are functions only internally.
+5. which has keywords class,"constructor",extends,this,super.
+6. inside class we can declare instance variables, methods without this keyword.
+7.object creation syntax remains same.
+
+
+//es 6 classes
+
+class Employee {
+    //instance variables
+    id = 0;
+    name = 'foo';
+    //methods
+    calculateSalary() {
+        return 100
+    }
+}
+//create object
+var emp = new Employee();
+console.log(emp.id,emp.name,emp.calculateSalary())
+
+state initalization:
+//es 6 classes
+
+class Employee {
+    //instance variables
+    // id = 0;
+    // name = 'foo';
+    constructor(id = 0, name = 'foo') {
+        this.id = id
+        this.name = name;
+    }
+    //methods
+    calculateSalary() {
+        return 100
+    }
+}
+//create object
+var emp = null;
+emp = new Employee();
+emp.id = 1;
+emp.name = 'bar'
+console.log(emp.id, emp.name, emp.calculateSalary())
+
+emp = new Employee(2, 'subramanian');
+console.log(emp.id, emp.name, emp.calculateSalary())
+
+Arrow functions inside classes:
+//es 6 classes
+
+class Employee {
+    //instance variables
+    // id = 0;
+    // name = 'foo';
+    constructor(id = 0, name = 'foo') {
+        this.id = id
+        this.name = name;
+    }
+    //methods
+    calculateSalary() {
+        return 100
+    }
+    calculateLeave = () => 10;
+}
+//create object
+var emp = null;
+emp = new Employee();
+emp.id = 1;
+emp.name = 'bar'
+console.log(emp.id, emp.name, emp.calculateSalary(),emp.calculateLeave())
+
+emp = new Employee(2, 'subramanian');
+console.log(emp.id, emp.name, emp.calculateSalary(),emp.calculateLeave())
+
+//////////////////////////////////////////////////////////////////////////////////////////
+
+Hierachy inside classes:
+........................
+
+//has-a
+
+class Product {
+    constructor(pid = '00', pname = 'foo') {
+        this.pid = pid;
+        this.pname = pname
+    }
+}
+class Order {
+    constructor(orderId = 'A000', product = new Product()) {
+        this.orderId = orderId;
+        //has-a
+        this.product = product;
+    }
+}
+var order = null;
+order = new Order();
+console.log(order.orderId, order.product.pname)
+
+order = new Order(1, new Product(90, 'myproduct'));
+console.log(order.orderId, order.product.pname)
+/////////////////////////////////////////////////////////////////////////////////////////////
+
+Inheritance:
+............
+
+
+//shared property
+class Product {
+    constructor(id) {
+        this.id = id;
+    }
+}
+Product.prototype.price = 100;
+Product.prototype.qty = 10;
+
+class Computer extends Product {
+    constructor(id = 0, name) {
+        super(id)
+        this.name = name;
+    }
+}
+
+
+// var product = null;
+// product = new Product(23);
+// console.log(product.id, product.price, product.qty)
+
+// product = new Product(34);
+// console.log(product.id, product.price, product.qty)
+
+
+var product = null;
+product = new Computer(23);
+console.log(product.id, product.price, product.qty)
+
+product = new Computer(34);
+console.log(product.id, product.price, product.qty)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

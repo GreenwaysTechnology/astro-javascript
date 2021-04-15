@@ -1,28 +1,32 @@
-//
-function Employee(id = 0, name = '', salary = 0) {
-    //object properties
-    this.id = id // 1;
-    this.name = name //'Subramanian';
-    this.salary = salary //10000;
-    //private variable
-    var bonus = 2.5;
-    //methods : via function
-    this.calculateBonus = function () {
-        return computeBonus();
-    }
-    this.calculateAnnualSalary = function () {
-        return this.calculateBonus() + this.salary;
-    }
-    var tempSalary = this.salary;
-    //private function
-    // function computeBonus() {
-    //     console.log(this.salary);
-    //     return this.salary * bonus / 100
-    // }
-    function computeBonus() {
-        return tempSalary * bonus / 100
+
+//shared property
+class Product {
+    constructor(id) {
+        this.id = id;
     }
 }
-var emp = null;
-emp = new Employee(1, 'Subramanian', 49500)
-console.log(`Id ${emp.id} name ${emp.name} Salary ${emp.salary} Bonus ${emp.calculateBonus()} Annual salary ${emp.calculateAnnualSalary()}`)
+Product.prototype.price = 100;
+Product.prototype.qty = 10;
+
+class Computer extends Product {
+    constructor(id = 0, name) {
+        super(id)
+        this.name = name;
+    }
+}
+
+
+// var product = null;
+// product = new Product(23);
+// console.log(product.id, product.price, product.qty)
+
+// product = new Product(34);
+// console.log(product.id, product.price, product.qty)
+
+
+var product = null;
+product = new Computer(23);
+console.log(product.id, product.price, product.qty)
+
+product = new Computer(34);
+console.log(product.id, product.price, product.qty)
