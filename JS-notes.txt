@@ -3375,61 +3375,501 @@ console.log(doubledArray)
 var strs = ["a", "b", "c", "d"];
 var upperCase = strs.map(item => item.toUpperCase())
 console.log(upperCase)
-/////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////
+
+Predicate:
+  Api will return new items based on true.
+
+array.filter
+//filter
+
+var list = [10, 20, 33, 1, 5, 7, 8];
+
+//find even numbers from the list
+// var even = list.filter(function (i) {
+//     return i % 2 === 0
+// });
+var even = list.filter(i => i % 2 === 0);
+console.log(even)
+var odd = list.filter(i => i % 2 !== 0);
+console.log(odd)
 
 
+find:
+ The find() method returns the value of the first element in the provided array that satisfies the provided testing function,  if testing failed it returns undefined.
+
+
+//find method.
+
+var list = [1, 2, 3, 1, 4, 5];
+var found = list.find(i => i == 1)
+console.log(found)
+
+var empList = [{
+    id: 1,
+    name: 'a'
+},
+{
+    id: 2,
+    name: 'b'
+},
+{
+    id: 3,
+    name: 'c'
+}, {
+    id: 4,
+    name: 'd'
+}
+];
+
+function findByid(id) {
+    return empList.find(employee => {
+        return id === employee.id
+    });
+}
+
+var employee = findByid(1)
+if (employee) {
+    console.log(employee)
+} else {
+    console.log('No employee found!!')
+}
+/////////////////////////////////////////////////////////////////////////////////////////////
+
+can we coimbine, map--filter?
  
+//map--filter
+
+var list = [1, 34, 56, 78, 2, 10,55];
+//doubleIt-find even numbers.
+
+list.map(i => i * 2).filter(i => i % 2 === 0).forEach(i => console.log(i));
+console.log('......')
+list.map(i => i * 3).filter(i => i % 2 !== 0).forEach(i => console.log(i));
+..............................................................................................
+
+                                  JSON  - Javascript Object Notation
+                                     (Data interchange format)
+..............................................................................................
+
+what is json?
+  JSON (JavaScript Object Notation) is a lightweight data-interchange format.
+  Data interchange format is format used to exchange data between two different systems and   machines and os.
+
+- It is easy for humans to read and write. It is easy for machines to parse and generate.
+- It is simple ascii file.
+- It is based on a subset of the JavaScript Programming Language Standard ECMA-262 3rd Edition   December 1999.
+- JSON is a text format that is completely language independent but uses conventions that are familiar to programmers of the C-family of languages, including C, C++, C#, Java, JavaScript, Perl, Python, and many others.
+
+JSON will represent data in key value pair.
+
+-key should be string-""
+-value should be - string,number,boolean,object,array,null.
+
+IS it json?
+  {
+   id:1
+  }
+it is not json but js object
+
+  {
+    "id":1
+  }
+
+in js literal object key:value
+
+ var emp = {
+   id:1
+ }
+what is typeof id?
+ in literal object , type of key is always string,value type is decided based on literal
+
+here id is always string, 1 is number
+  
+
+var emp = {
+    id: 1,
+    name: 'hello'
+}
+console.log(typeof emp);
+emp = {
+    "id": 1,
+    "name": 'hello'
+}
+console.log(typeof emp);
+//////////////////////////////////////////////////////////////////////////////////////////////
+
+JSON Parser:
+ 
+ It is program, used to convert --Object to String and String to Object.
+
+json(string)-----C++ --parser----will convert json string into C++ Object.
+
+Javascript language introduced json parser in the form of JSON parser object in ES 5.
+
+JSON.parse() -  string to object
+JSON.stringify - object to string.
+
+
+var emp = {
+    id: 1,
+    name: 'hello'
+}
+console.log(typeof emp);
+emp = {
+    "id": 1,
+    "name": 'hello'
+}
+console.log(typeof emp);
+////////////////////////////////////////////////////////////////////////
+
+var profiles = [
+    { id: 1, name: 'a' },
+    { id: 2, name: 'b' },
+    { id: 3, name: 'c' },
+    { id: 4, name: 'd' },
+];
+console.log(typeof profiles);
+//object to string conversion
+var profilesJson = JSON.stringify(profiles);
+console.log(typeof profilesJson)
+console.log(profiles)
+console.log(profilesJson)
+var profilesObj = JSON.parse(profilesJson);
+console.log(typeof profilesObj)
+
+////////////////////////////////////////////////////////////////////////////////////////////
+
+Scope:
+  -local 
+  -global
+  -hositing
+  -block scope
+  -strict mode and non strict mode
+  -scope chain
+  -this keyword
+  -closure
+
+What is scope?
+  Scope: visibility of variables ,where it is visible
+
+//variable is declare inside script
+var message = 'hello'
+
+function sayHello() {
+//variable is declared inside function
+    var name = 'subramanian'
+    console.log(message)
+    console.log(name)
+}
+sayHello()
+console.log(message);
+
+here name is local variable 
+ local variable is available inside function only.
+
+and message is global variable
+  which is available across the program.
+
+////////////////////////////////////////////////////////////////////////////////
+
+index.js
+
+//can we access the i and j before declaration.
+
+console.log(i, j)
+
+var i = 10;
+var j = 30;
+
+console.log(i, j)
+
+
+output:
+undefined undefined
+10 30
+
+how we can access the variables before declaration.
+
+Js code has two stages:
+
+1.declaration/creation stage
+2.execution/initalization stage
+
+
+Js engine has three pipelines:
+
+1.source code transformer
+ index.js---------parsedcode
+2.compiler 
+ parsed code ----- assembly
+3.execution 
+   assembly is loaded into cpu and memory
+
+
+index.js -source code
+console.log(i, j)
+
+var i = 10;
+var j = 30;
+
+console.log(i, j)
+     |
+ parser 
+   |
+
+var i;
+var j;
+console.log(i, j)
+i = 10;
+j = 30;
+
+console.log(i, j)
+  
+What is "hoisting"?
+  moving up one level.
+
+
+source code
+sayHello();
+//function declaration
+function sayHello() {
+    console.log('Hello')
+}
+sayHello()
+
+parsed code: function hoisting
+
+//function declaration
+function sayHello() {
+    console.log('Hello')
+}
+
+sayHello();
+
+sayHello()
+
+///////////////////////////////////////
+//var hai=undefined
+hai();
+
+hai();
+^
+
+TypeError: hai is not a function
+
+var hai = function () {
+    console.log('hai');
+};
+hai();
+//////////////////////////////////////////////////////////////////////////////////////////////
+
+Hositing inside function:
+
+source code:
+
+index.js
+
+function sayMessage(message) {
+    if (message) {
+        var name = 'foo'
+        console.log(name);
+    }
+    console.log(name);
+}
+//sayMessage('hello')
+sayMessage()
+
+parsed code:
+
+
+function sayMessage(message) {
+    var name;
+    if (message) {
+        name='foo'
+        console.log(name);
+    }
+    console.log(name);
+}
+//sayMessage('hello')
+sayMessage()
+
+////////////////////////////////////////////////////////////////////////////////////////////
+
+Block scope :
+
+ if any variable is delcared inside blocks  like if, loops, will not be available outside that scope. java,c,C++ supports block scope, but js does not support block scope directly.
+
+What if i want block scope?
+
+ -i dont want to access the variable outside the scope eg ; outside if...
+
+Soultion 1: ES 5 
+ -Via IIEF functions.
+//with block scope ;using iife function
+function sayHai(message) {
+    (function () {
+        if (message) {
+            //block ;if 
+            var name = 'foo'
+        }
+    })()
+    console.log(name);
+}
+sayHai('hello')
+
+console.log(name);
+              ^
+
+ReferenceError: name is not defined
+
+-via es 6 solution ; let and const keyword
+
+//block scope via es 6 let and const keywords
+
+function sayHello(message) {
+    if (message) {
+        //block ;if 
+       // let firstName = 'foo'
+       const firstName = 'foo'
+    }
+    console.log(firstName);
+}
+sayHello('hello')
+.....................................................................................
+
+var vs let and const:
+
+ var is not block scoped
+ let and const are block scoped.
+
+//block scope
+
+console.log(a);
+
+let  a =10;
+
+//without block scope
+function sayMessage(message) {
+    if (message) {
+        //block ;if 
+        var name = 'foo'
+    }
+    console.log(name);
+}
+sayMessage('hello')
+//with block scope ;using iife function
+function sayHai(message) {
+    (function () {
+        if (message) {
+            //block ;if 
+            var name = 'foo'
+        }
+    })()
+  //  console.log(name);
+}
+sayHai('hello')
+//block scope via es 6 let and const keywords
+
+function sayHello(message) {
+    if (message) {
+        //block ;if 
+       // let firstName = 'foo'
+       const firstName = 'foo'
+    }
+    console.log(firstName);
+}
+sayHello('hello')
+/////////////////////////////////////////////////////////////////////////////////////////////
+
+let vs const:
+
+let is block scoped but can reinitalize the variable
+const is block scoped but cant be reinitalized.
+
+const is mostly recommened in large apps.
+
+//let vs const
+
+let a = 10;
+console.log(a);
+a = 20;
+console.log(a);
+const b =100;
+console.log(b);
+b=900;
+
+///////////////////////////////////////////////////////////////////////////////////////////
+
+Advanced scope:
 
 
 
+Three scopes in general: Based on variable binding
+
+let /var  x = 10; - binding
+
+1.static scope /Lexical scope
+2.dynamic scope
+3.Augmented scope - deprecated
+
+1.static scope:
+
+Static scope
+
+Definition 1: Static scope:
+ a language implements static scope, if only by looking at the source code one can determine in which environment a binding is resolved.
+
+static scope is other wise is called lexcial scope 
+
+Environment:
+	Every execution context has an associated lexical environment.
+
+Execution context:
+ To execute JS code and track its runtime evaluation, ECMAScript spec defines the concept of an execution context. Logically execution contexts are maintained using a stack (the execution context stack as we will see shortly), which corresponds to the generic concept of a call-stack.
+
+Execution context: An execution context is a specification device that is used to track the runtime evaluation of the code.
+
+There are several types of ECMAScript code: the global code, function code, eval code, and module code; each code is evaluated in its execution context.
+
+Lexical environment:
+   A lexical environment is a structure used to define association between identifiers appearing in the context with their values. 
+
+Each environment can have a reference to an optional parent environment.
+
+So an environment is a storage of variables, functions, and classes defined in a scope.
 
 
+how to write code in js?
+
+ index.js - file
+
+  variables
+  functions(){
+     variables
+     functions
+   }
+  class
+
+global env: structure which holds all variables,functions, class.
+ how to implement global env -  object-context- global context
 
 
+Structure of Environent:
 
+Technically, an environment is a pair, consisting of an environment record (an actual storage table which maps identifiers to values), and a reference to the parent (which can be null).
 
+eg code :
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+let x = 10;
+let y = 20;
+ 
+function foo(z) {
+  let x = 100;
+  return x + y + z;
+}
+ 
+foo(30); // 150
 
 
 
