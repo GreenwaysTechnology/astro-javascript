@@ -1,12 +1,23 @@
-//strings
-//length property
-var str = 'Life, the universe and everything. Answer:';
+//array transformation
 
-console.log(`${str} ${str.length}`);
-console.log(`The character at index ${4} is ${str.charAt(4)}`);
+var doubleIt = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+//console.log(doubleIt)
+// doubleIt.forEach(function(item,index){
+//     console.log(item)
+// });
+doubleIt.forEach((item, index) => {
+    console.log(item)
+});
 
-str = 'The quick brown fox jumps over the lazy dog.';
+// var doubledArray = doubleIt.map(function (item) {
+//     //logic
+//     return item * 2;
+// });
+var doubledArray = doubleIt.map(item => item * 2);
+console.log(doubledArray)
 
-var words = str.split(' ');
-console.log(words)
-console.log(str.toUpperCase())
+var strs = ["a", "b", "c", "d"];
+var upperCase = strs.map(item => item.toUpperCase())
+upperCase.forEach((item, index) => {
+    console.log(index,item)
+});

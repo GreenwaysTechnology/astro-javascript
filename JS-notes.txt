@@ -3020,21 +3020,365 @@ str = 'The quick brown fox jumps over the lazy dog.';
 var words = str.split(' ');
 console.log(words)
 console.log(str.toUpperCase())
+//////////////////////////////////////////////////////////////////////////////////////////
+Number:
+Number is a primitive wrapper object used to represent and manipulate numbers like 37 or -9.25.
+
+The Number constructor contains constants and methods for working with numbers. Values of other types can be converted to numbers using the Number() function
+
+Number provides
+
+1.function syntax
+   Number('10') -> 10 - conversion.
+
+2.constructor syntax
+  new Number() - new number object; not recommended in order to represent numbers.
+
+//Number
+
+//static properties
+console.log(`Max Value ${Number.MAX_VALUE}`)
+console.log(`Min Value ${Number.MIN_VALUE}`)
+console.log(`Negative infinity ${Number.NEGATIVE_INFINITY}`)
+console.log(`Postive infinity ${Number.POSITIVE_INFINITY}`)
+console.log(`NaN Value ${Number.NaN}`)
+//static methods
+var x = 100;
+var y;
+var res = x * y;
+if (Number.isNaN(res)) {
+    console.log('something went wrong')
+} else {
+    console.log('ok')
+}
+//instance methods
+//var n = new Number(100);
+var n = 100.8956; //new Number(1000.8956)
+console.log(`Round off ${n.toFixed()} ${n.toFixed(2)}`)
+console.log(`Exponential ${n.toExponential(2)}`)
+
+////////////////////////////////////////////////////////////////////////////////////////
+
+Boolean:
+ The Boolean object is an object wrapper for a boolean value.
+
+//Boolean Object
+
+var b = true;
+console.log(b.toString())
+var myFalse = new Boolean(false);
+console.log(myFalse.valueOf())
+//////////////////////////////////////////////////////////////////////////////////////////////
+Math:
+Math is a built-in object that has properties and methods for mathematical constants and functions. It’s not a function object , so that you cant use new keyword to create object.
 
 
+//Math Object
+//static properties
+console.log(`PI ${Math.PI}`)
+console.log(`PI ${Math.PI.toFixed(3)}`)
+//static methods
+console.log(`Random Number ${Math.random()}`)
+console.log(`Round ${Math.round(0.3)}`)
+console.log(`Round ${Math.round(Math.random().toFixed(4))}`)
+
+//
+function random(min, max) {
+    const num = Math.floor(Math.random() * (max - min + 1)) + min;
+    return num;
+}
+
+console.log(random(1, 10));
+//////////////////////////////////////////////////////////////////////////////////////////////
+
+Date:
+JavaScript Date objects represent a single moment in time in a platform-independent format. Date objects contain a Number that represents milliseconds since 1 January 1970 UTC.
 
 
+Date()
+  When called as a function, returns a string representation of the current date and time, exactly as new Date().toString() does.
+ you cant use date related api because it is string
+
+new Date()
+  When called as a constructor, returns a new Date object.
+ you can use date related api
+
+//Date 
+
+//
+var datestr = Date()
+var dateobj = new Date();
+console.log(`${typeof datestr}`)
+console.log(`${typeof dateobj}`)
+//static methods
+console.log(`Current Time in Ms ${Date.now()} $ `)
+console.log(`Parsed Date ${Date.parse('04 Dec 1995 00:12:00 GMT')}`)
+
+//instance methods
+var date = new Date();
+console.log(` day of the month (1–31) ${date.getDate()}`)
+console.log(` day of the week (0–6)   ${date.getDay()}`)
+console.log(` the hour (0–23)    ${date.getHours()} hrs Mins ${date.getMinutes()}`)
+
+//date conversion/formating
+console.log(` Readable String Representation ${date.toDateString()}`)
+console.log(` Readable String Representation ${date.toLocaleDateString()}`)
+
+//Perfermance testing: How much time took for given operations
+
+var start = Date.now();
+for (var i = 0; i < 10000000000; i++) {
+
+}
+var end = Date.now();
+var elapsed = end - start
+console.log(`${elapsed} Time taken by for loop for 1000000000 iterations`)
+//////////////////////////////////////////////////////////////////////////////////////////////
+
+Array:
+......
+
+1.Array is object.
+2.Array is 0th based index
+3.Array is dynamic array list list
+4.It provides lot of api to create most powerfull ds.
+
+How to create array object?
+
+1.using constructor
+  new Array() - not recommended
+2.using literal 
+  []
+
+//Array:
+
+//create simple array
+var list = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+console.log(list)
+var strlist = ["a", 'b', "c"];
+console.log(strlist)
+//collection of objects
+var profiles = [
+    { id: 1, name: 'a' },
+    { id: 2, name: 'b' },
+    { id: 3, name: 'c' },
+    { id: 4, name: 'd' },
+];
+console.log(profiles);
+
+class Product {
+    constructor(id = 0, name = 'pname') {
+        this.id = id;
+        this.name = name;
+    }
+}
+//list of products
+var products = [
+    new Product(1, 'p1'),
+    new Product(2, 'p2'),
+    new Product(3, 'p3'),
+    new Product(4, 'p4'),
+    new Product(5, 'p5')
+];
+console.log(products)
+
+//mixed array
+var mixed = ['a', 1, true, new Product(), { id: 1, name: 'test' }, function () { }];
+console.log(mixed)
+
+//nested arrays
+var nested = [
+    'a',
+    [
+        12, 10, 90
+    ],
+    'hello'
+
+];
+console.log(nested);
+
+//
+var data = [
+    {
+        title: "Main dishes",
+        data: ["Pizza", "Burger", "Risotto"]
+    },
+    {
+        title: "Sides",
+        data: ["French Fries", "Onion Rings", "Fried Shrimps"]
+    },
+    {
+        title: "Drinks",
+        data: ["Water", "Coke", "Beer"]
+    },
+    {
+        title: "Desserts",
+        data: ["Cheese Cake", "Ice Cream"]
+    }
+];
+console.log(data)
+////////////////////////////////////////////////////////////////////////////////////////////
+Array Common Operations:
+
+1.Accessing array elements:
+2.Add elements
+3.updating 
+4.remove
+
+//
+
+var list = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+
+//read one element
+console.log(list[0], list[9])
+//get length of an array.
+console.log(list.length)
+//last element
+console.log(list[list.length - 1])
+//iterators: for loop
+for (var i = 0; i < list.length; i++) {
+    console.log(`i value ${list[i]}`)
+}
+
+//adding element at end of the array: push
+var newList = [1, 2, 3];
+console.log('before adding')
+console.log(`length ${newList.length}`);
+var newLength = newList.push(4, 5, 6, 7, 8)
+console.log(`length ${newLength} ${newList}`);
+
+//remove last element/ at end of the array: pop
+console.log(`Removed element ${newList.pop()}`)
+
+for (var i = 0; i < list.length; i++) {
+    console.log(`Removed element ${list.pop()}`)
+}
+//remove first element /at begining of the array: shift
+list = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+console.log(list.shift(), list, list.unshift(1000), list)
+
+///update existing elements with new element
+var fruits = ["Banana", "Orange", "Apple", "Mango"];
+console.log('before update', fruits);
+fruits[0] = "Kiwi"
+console.log('After update', fruits);
+
+var months = ['Jan', 'March', 'April', 'June'];
+console.log(months)
+console.log(months.splice(1, 0, 'Feb'));
+console.log(months)
+
+var animals = ['ant', 'bison', 'camel', 'duck', 'elephant'];
+
+console.log(animals.slice(2));
+console.log(animals.slice(2, 4));
+
+//merging /concat arrays;
+
+var todos = [{ id: 1, status: true, text: 'learn js' }]
+var newtdos = [{ id: 2, status: false, text: 'learn node js' }]
+var finaltodos= todos.concat(newtdos)
+console.log(finaltodos);
+
+/////////////////////////////////////////////////////////////////////////////////////////////
+
+Array Advanced Operations:
+..........................
+
+1.sort:
+//Array sorting
+var list = [1, 30, 4, 21, 100000];
+//
+// list.sort(function (a, b) {
+//     return a - b;
+// // })
+// list.sort((a, b) => {
+//     return a - b;
+// })
+
+list.sort((a, b) => a - b)
+console.log('asc', list)
+list.sort((a, b) => b - a)
+console.log('desc', list)
+
+//objects sorting : objects are sorted based on keys of objects.
+var items = [
+    { name: 'Edward', value: 21 },
+    { name: 'Sharpe', value: 37 },
+    { name: 'And', value: 45 },
+    { name: 'The', value: -12 },
+    { name: 'Magnetic', value: 13 },
+    { name: 'Zeros', value: 37 }
+];
+console.log('Objects before sort ing', items)
+items.sort((a, b) => {
+    return a.value - b.value
+})
+console.log('Objects after sort ing asc order', items)
+//name based sorting
+items.sort(function (a, b) {
+    var nameA = a.name.toUpperCase(); // ignore upper and lowercase
+    var nameB = b.name.toUpperCase(); // ignore upper and lowercase
+    // return nameA.localeCompare(nameB)
+    if (nameA < nameB) {
+        return -1;
+    }
+    if (nameA > nameB) {
+        return 1;
+    }
+    // names must be equal
+    return 0;
+});
+console.log('Objects after sort ing asc order', items)
+/////////////////////////////////////////////////////////////////////////////////////////////
+Iterator:
+  for... loop
+ dont use for..loop use array.forEach method.
+
+array.forEach(function(){});
+1.it takes function as parameter which never returns any thing.
+
+var doubleIt = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+//console.log(doubleIt)
+// doubleIt.forEach(function(item,index){
+//     console.log(item)
+// });
+doubleIt.forEach((item, index) => {
+    console.log(item)
+});
 
 
+Transformation:
+  iterating and changing elements in side array.
+
+eg:
+  i have list of numbers, i need to double them.
+
+map
+
+array.map(transfomer function)
+
+1.map takes function, which returns element ,modified
+2.map returns new array.
+
+//array transformation
+
+var doubleIt = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+console.log(doubleIt)
+// var doubledArray = doubleIt.map(function (item) {
+//     //logic
+//     return item * 2;
+// });
+var doubledArray = doubleIt.map(item => item * 2);
+console.log(doubledArray)
+
+var strs = ["a", "b", "c", "d"];
+var upperCase = strs.map(item => item.toUpperCase())
+console.log(upperCase)
+/////////////////////
 
 
-
-
-
-
-
-
-
+ 
 
 
 
