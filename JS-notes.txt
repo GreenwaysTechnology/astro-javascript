@@ -4381,6 +4381,491 @@ features of Promise Object:
 Promise can be used with any async implementations.
 
 
+Promise ES 6 implementation:
+
+IN ES 6 promise Object.
+
+Promise object creation:
+
+1.using constructors
+2.using factory apis - Promise.resolve=Promise.reject
+
+
+Promise object has api:
+
+1.promise.then
+2.promise.catch
+3.finally
+
+
+Promise Factory eg:
+
+//Promise object creation: Factory apis;
+
+function getSuccess() {
+    return Promise.resolve('Success');
+}
+function getFailure() {
+    return Promise.reject('failed');
+}
+// const p = getSuccess();
+// console.log(p);
+// p.then(data => console.log(data));
+
+const getUser = () => {
+    let user = { id: 1, name: 'admin' };
+    //user = null;
+    if (user) {
+        return Promise.resolve('User found')
+    } else {
+        return Promise.reject('User not Found')
+    }
+}
+
+
+console.log('start')
+
+getSuccess()
+    .then(data => console.log(data));
+
+getFailure()
+    .catch(err => console.log(err))
+
+getUser()
+    .then(user => console.log(user))
+    .catch(err => console.log(err));
+
+console.log('end')
+////////////////////////////////////////////////////////////////////////////////////////////
+
+Create Promise object : using constructors:
+
+//Promise Constructor api: if you have any existing callback based programming
+//you can convert to Promise 
+
+//traditional callback based
+function delay(callback) {
+    setTimeout(callback, 1000, "Hello Callback")
+}
+
+//
+delay(data => console.log(data));
+
+//Promise based ; convert existing delay with promises
+
+function delayAsync() {
+    //Promise constructor
+    return new Promise((resolve, reject) => {
+        setTimeout(resolve, 2000, "Hello Promise")
+    });
+}
+delayAsync()
+    .then(data => console.log(data))
+    .catch(err => console.log(err))
+    .finally(() => console.log('done'))
+//////////////////////////////////////////////////////////////////////////////////////////
+
+Callback hell and Promise Solution:
+
+const getUser = () => {
+    //logic
+    let user = { id: 1, name: 'admin' };
+    //user = null;
+    let error = { message: 'User not found' }
+    return new Promise((resolve, reject) => {
+        if (user) {
+            setTimeout(resolve, 1000, user);
+        } else {
+            setTimeout(reject, 1000, error)
+        }
+    });
+};
+const login = user => {
+    let status = 'login success'
+    let error = 'login failed'
+    return new Promise((resolve, reject) => {
+        if (user.name === 'admin') {
+            setTimeout(resolve, 1000, status);
+        } else {
+            setTimeout(reject, 1000, error)
+        }
+    });
+
+};
+const showPage = status => {
+    let page = 'Admin page'
+    let error = 'Guest Page'
+
+    return new Promise((resolve, reject) => {
+        if (status === 'login success') {
+            setTimeout(resolve, 1000, page);
+        } else {
+            setTimeout(reject, 1000, error)
+        }
+    });
+
+};
+
+
+// getUser()
+//     .then(user => {
+//         console.log('get User is called')
+//         login(user)
+//             .then(status => {
+//                 console.log('login is called')
+//                 showPage(status)
+//                     .then(page => {
+//                         console.log('show page is called');
+//                     })
+//                     .catch(err => console.log(err))
+//             })
+//             .catch(err => console.log(err))
+//     })
+//     .catch(err => {
+//         console.log(err);
+//     })
+//     .finally(() => console.log('done'));
+
+//simplified version
+// getUser()
+//     .then(user => {
+//         console.log('get User is called')
+//         return login(user);
+//     })
+//     .then(status => {
+//         console.log('login is called')
+//         return showPage(status);
+//     })
+//     .then(page => {
+//         console.log('show page is called');
+//     })
+//     .catch(err => {
+//         console.log(err);
+//     })
+//     .finally(() => console.log('done'));
+
+getUser()
+    .then(user => login(user))
+    .then(status => showPage(status))
+    .then(page => console.log(page))
+    .catch(err => console.log(err))
+    .finally(() => console.log('done'));
+
+//using destructuring syntax
+const { log } = console;
+getUser()
+    .then(login)
+    .then(showPage)
+    .then(log)
+    .catch(log)
+    .finally(() => log('done'));
+/////////////////////////////////////////////////////////////////////////////////////////////
+
+Advanced Async Programming:
+
+Promise.all
+
+Let’s say we want many promises to execute in parallel and wait until all of them are ready.
+
+For instance, download several URLs in parallel and process the content once they are all done.
+
+The syntax is:
+
+let promise = Promise.all([...promises...]);
+
+Promise.all([
+    new Promise(resolve => setTimeout(() => resolve(1), 3000)), // 1
+    new Promise(resolve => setTimeout(() => resolve(2), 2000)), // 2
+    new Promise(resolve => setTimeout(() => resolve(3), 1000))  // 3
+]).then(r => console.log(r)); 
+
+
+Promise.race
+Similar to Promise.all, but waits only for the first settled promise and gets its result (or error).
+
+Promise.race([
+    new Promise((resolve, reject) => setTimeout(() => resolve(1), 1000)),
+    new Promise((resolve, reject) => setTimeout(() => reject(new Error("Whoops!")), 2000)),
+    new Promise((resolve, reject) => setTimeout(() => resolve(3), 3000))
+]).then(console.log); // 1
+/////////////////////////////////////////////////////////////////////////////////////////////
+
+Drawbacks in promises:
+
+1.Promise are readable soultion for complex callback patterns.
+  but it will introduce again code complexity with "thenable" statements.
+
+ES 7 Proposed new soultion called :async await
+  -It reduces code for promise consumptions.
+
+async:
+-async is keyword used infront of function declaration; async functions
+-async function returns Promise by default.
+--async ....await keywords makes more readable code- sync style of async code.
+
+//async functions
+const { log } = console;
+
+async function getValue() {
+    return 10; // return Promise.resolve(10)
+}
+console.log(getValue())
+getValue()
+    .then(log)
+////////////////////////////////////////////////////////////////////////////////
+
+//async ... await togther
+
+const getUser = () => {
+    //logic
+    let user = { id: 1, name: 'admin' };
+    //user = null;
+    let error = { message: 'User not found' }
+    return new Promise((resolve, reject) => {
+        if (user) {
+            setTimeout(resolve, 1000, user);
+        } else {
+            setTimeout(reject, 1000, error)
+        }
+    });
+};
+const login = user => {
+    let status = 'login success'
+    let error = 'login failed'
+    return new Promise((resolve, reject) => {
+        if (user.name === 'admin') {
+            setTimeout(resolve, 1000, status);
+        } else {
+            setTimeout(reject, 1000, error)
+        }
+    });
+
+};
+const showPage = status => {
+    let page = 'Admin page'
+    let error = 'Guest Page'
+
+    return new Promise((resolve, reject) => {
+        if (status === 'login success') {
+            setTimeout(resolve, 1000, page);
+        } else {
+            setTimeout(reject, 1000, error)
+        }
+    });
+
+};
+//process promise
+async function main() {
+    //using thenables
+    getUser()
+        .then(user => {
+            console.log('get User is called')
+        })
+        .catch(err => {
+            console.log(err);
+        })
+        .finally(() => console.log('done'));
+    //using await 
+
+    try {
+        const user = await getUser();
+        const status = await login(user);
+        const page = await showPage(status);
+        console.log(user, status, page);
+    }
+    catch (err) {
+        console.log(err);
+    }
+    finally {
+        console.log('done')
+    }
+
+
+
+}
+main();
+/////////////////////////////////////////////////////////////////////////////////////////////
+
+Apis used using Promises:
+
+1.fetch() api.
+fetch() allows you to make network requests similar to XMLHttpRequest (XHR). The main difference is that the Fetch API uses Promises, which enables a simpler and cleaner API, avoiding callback hell and having to remember the complex API of XMLHttpRequest.
+
+const { log } = console;
+
+function findAllTodos() {
+    const url = "https://jsonplaceholder.typicode.com/todos"
+    return fetch(url);//promise
+}
+async function main() {
+    // findAllTodos()
+    //     .then(response => {
+    //         return response.json();
+    //     })
+    //     .then(todos => log(todos))
+    //     .catch(log)
+    try {
+        const response = await findAllTodos();
+        const todos = await response.json();
+        log(todos)
+    }
+    catch (err) {
+        log(err)
+    }
+}
+main();
+//////////////////////////////////////////////////////////////////////////////////////////////
+                                 Javascript Module Patterns
+/////////////////////////////////////////////////////////////////////////////////////////////
+
+
+Module design patterns:
+
+1.how to break app into multiple files
+2.after breaking how to share code among files.
+
+
+JS ;
+1. has no language level modular design for file loading ,linking , sharing
+
+2.Javascript engine provides simple loader which can load one .js file at a time.
+
+3.If file has linking with other file,that also should be loaded separtly.
+
+How to solve this issue?
+
+Via module design patterns.
+
+1.Namespace design pattern : which is core design pattern helps to organize code sharing only
+  ->how to encapsulate the code
+ which uses js core concept called "literal object/iife)"
+2.AMD
+3.CJS
+4.ES 6 Module design pattern
+5.System
+6.UMD
+
+out of which only 2 designs are used in coding
+
+1.commonjs - node js 
+2.es 6 module  - both node js and browser - cant be used directly
+
+
+commonjs
+
+1.how to share code across files
+code :
+  variables having any literal
+  functions
+  classes
+2.how to link files -linker and loaders
+
+share and link cjs provides keywords
+
+1.require('filename')
+
+sharing code
+2.exports,module.exports 
+
+
+
+//code 
+exports.firstName = 'Subramanian'
+exports.lastName = 'Murugan';
+exports.age = 18
+exports.address = {
+    city: 'coimbatore'
+}
+exports.skills = ['js', 'java', 'c++']
+exports.isValid = function () {
+    return true;
+}
+const result = require('./mylib')
+console.log(result);
+console.log(result.isValid())
+
+
+exports vs module.exports
+
+exports returns object
+module.exports returns things as it is.
+
+
+module.exports
+
+const EmployeeService = require('./Employee');
+
+class EmployeeService {
+    constructor() {
+
+    }
+    findAll() {
+        return 'find all'
+    }
+}
+module.exports = EmployeeService;
+
+/////////////////////////////////////////////////////////////////////////////////////////////
+
+Es6 modules
+  = amd + cjs
+
+es 6 modules never work directly in node and browser
+we need loader program.
+loader is available in webpack tool
+
+how to link files
+
+import
+
+how to share code
+
+export, export default
+
+info.js
+
+
+export const firstName = 'Subramanian'
+export const age =19
+export const skills = ['js']
+export const sayHello = ()=>'hello'
+
+Todo.js
+
+class Todo {
+    constructor() {
+
+    }
+    findAll() {
+        return 'todos'
+    }
+}
+export default Todo;
+
+index.js
+
+import { firstName, age, skills, sayHello } from './info'
+import Todo from './Todo'
+
+console.log(firstName, age, skills, sayHello())
+let todo = new Todo()
+console.log(todo.findAll())
+
+
+Tips:
+ use webpack.
+******************************************Thank you***********************************
+
+
+
+
+
+
+
+
+
+
+
 
 
 
