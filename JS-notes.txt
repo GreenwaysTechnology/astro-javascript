@@ -3803,8 +3803,6 @@ b=900;
 
 Advanced scope:
 
-
-
 Three scopes in general: Based on variable binding
 
 let /var  x = 10; - binding
@@ -3870,6 +3868,521 @@ function foo(z) {
 }
  
 foo(30); // 150
+/////////////////////////////////////////////////////////////////////////////////////////////
+
+flow:
+
+var a = 10;
+var b = 20;
+
+function foo() {
+    var a = 100;
+    console.log(`foo ${a}`);
+    function bar() {
+        var a = 200;
+        console.log(`bar ${a}`);
+        console.log(`b ${b}`);
+       // console.log(`c ${c}`)
+    }
+    bar();
+}
+foo();
+
+how its working:
+
+ 1. three envs are created - global env,foo env, bar env.
+ 2. global env has no parent.
+ 3. foo env parent is global env
+ 4. bar env parent is foo env.
+ 
+when variable lookup starts first it sees in the current env, if not it lookups its parent and its parent so on until lookup is succeed if not, then it will throw error "not defined".
+   -This is called as static scope /lexical scope.
+//////////////////////////////////////////////////////////////////////////////////////////////
+
+Dynamic scope:
+..............
+The dynamic scope specifically for variables is not widely used on practice today.
+
+Definition : 
+   Dynamic scope: a language implements dynamic scope, 
+	if a "caller" defines an activation environment of a "callee".
+
+caller =>Object
+callee =>function
+
+The object only decide "who is owner" of callee.
+
+How to implement dynamic binding in js?
+   
+   "this" keyword.
+
+Defintion:
+
+ This value:
+
+    "this" is builtin variable which always has value(object), assinged during runtime.
+     in JavaScript "this" value is dynamically scoped
+    "value of this" dynamically identified not in creation phase
+
+Who supplies the value of this?
+
+   The value of this is determined and provided exactly by the caller
+   
+   "The function binding is decided on object  dynamically".    
+
+how to test dynamic binding?
+
+-in browser
+-in node
+
+eg:
+//
+
+//sayHello belongs to which object
+function sayHello(){
+    return this; // this reprents object 
+}
+//owner of sayHello is decided when you call it-caller.
+console.log(sayHello()); // here there is no sign of object obj.sayHello();
+
+output:
+Window
+
+window is global object in browser. any thing you delcare inscript belongs to window only.
+
+sayHello belong to whom?
+
+1.By default , in browser sayHello belong to window.
+
+
+strict mode and nonstrict mode:
+
+Javascript was born in 10 days,it had lot of bugs. js carried those bugs in every version of
+js.
+ECMA team decided to disable some bad coding syntax.for that who introduced a mode 
+-non safe mode  - will not disable anything.
+
+-safe mode  -will disable some bad code syntaxs
+good practice being in safe mode.
+
+"safe mode is other wise called as strict mode".
+
+  
+
+
+Points:
+1.in non strict mode , this bound to window , I mean sayHello
+ is bound on window object by default. 
+2.In strict mode, this bound is decided by us based on object 
+  binding , meaning that function is free from any Object  binding default : this is recommended.
+
+'use strict'; //enabling safe mode
+
+//sayHello belongs to which object
+function sayHello(){
+    return this; // this reprents object 
+}
+console.log(sayHello());
+
+//output 
+undefined
+
+
+Think: can "this" be bound with function "Creation phase"  
+       or can "this" be available in lexical scope?
+       or can "this" be available in static scope?
+                  No!
+
+
+Use case 1 : how to bind function dynamically  | how to initalze "this" dynamically"
+
+How to call function on objects dynamically?
+
+Function object provides  function binding apis
+1.call
+2.apply
+3.bind
+
+
+1.call
+
+func.call([thisArg[, arg1, arg2, ...argN]])
+
+The call() method calls a function with a given this value(owner) and arguments provided individually.
+
+function getCordinate(...name) {
+    console.log(`${name} => x is ${this.x} y ${this.y}`)
+}
+//getCordinate()
+//owner
+const map = {
+    x: 1000,
+    y: 3888
+}
+//bind owner
+getCordinate.call(map, 'Google Map', 'google');
+//new Owner
+window.x = 90;
+window.y = 89;
+getCordinate.call(window, 'Browser', 'chrome')
+
+
+2.apply method
+
+func.apply(thisArg, [ argsArray])
+
+The apply() method calls a function with a given this value, and arguments provided as an array (or an array-like object).
+
+function getStocks(...stocks) {
+    console.log(`${this.name}`)
+    console.log(stocks);
+}
+
+const obj = {
+    name: 'google'
+};
+getStocks.apply(obj, [10, 20, 30, 40, 45]);
+
+3.bind
+
+  let boundFunc = func.bind(thisArg[, arg1[, arg2[, ...argN]]])
+
+   bind is similar to call and apply but it returns a new function, call and apply will invoke
+ functions immediatly on object - eager, where as bind is lazy.
+
+function increment() {
+    return this.count++;
+}
+const CounterApp = {
+    count: 0
+}
+const inc = increment.bind(CounterApp);
+
+for (let i = 0; i < 10; i++) {
+    console.log('counter', inc())
+}
+//////////////////////////////////////////////////////////////////////////////////////////
+
+Advanced dynamic binding : 
+
+how to understand function calls inside objects 
+
+'use strict';
+
+const training = {
+    teach: function () {
+
+        //inner function of the teach function
+        function teachJS() {
+            return this;
+        }
+        //call teach js
+        console.log('teachJs Owner ',teachJS())
+        //owner binding
+        //console.log('teachJs Owner ',training.teachJS())
+        console.log('teachJs Owner ', teachJS.call(training))
+
+        //teach return value
+        return this;
+    }
+}
+console.log('teach Owner ', training.teach());
+
+......................................................................................
+
+Returning a function and decides owner:
+
+'use strict';
+
+const training = {
+    teach: function () {
+        // return function teachJS() {
+        //     return this;
+        // }
+        return function () {
+            return this;
+        }
+    }
+}
+const teachJs = training.teach()
+console.log('teachJs owner ', teachJs());
+console.log('teachJs changing owner ', teachJs.call(training));
+/////////////////////////////////////////////////////////////////////////////////////////////
+
+self and this conventions:
+
+
+const training = {
+    firstName: 'Subramanian',
+    teach: function () {
+        console.log('teach function', this.firstName)
+        //inner function: i need to access firstName inside teachjs
+        let self = this;
+        function teachJs() {
+            //console.log('teachJs function', this.firstName)
+            console.log('teachJs function', self.firstName)
+        }
+        teachJs();
+    }
+}
+training.teach();
+
+when returning function;
+
+const training = {
+    firstName: 'Subramanian',
+    teach: function () {
+        console.log('teach function', this.firstName)
+        //inner function: i need to access firstName inside teachjs
+        let self = this;
+        return function () {
+            //console.log('teachJs function', this.firstName)
+            console.log('teachJs function', self.firstName)
+        }
+    }
+}
+const teachJs = training.teach()
+teachJs();
+
+Arrow and this:
+
+The owner of this is fixed lexcially/statically.
+
+Whether code in strict or non strict mode.
+
+'use strict';
+
+const sayHello = () => {
+    return this;
+}
+console.log(sayHello());
+
+const training = {
+    firstName: 'Subramanian',
+    teach: function () {
+        return () => {
+            console.log(this.firstName)
+        };
+    }
+}
+const teachJs = training.teach();
+teachJs();
+
+
+const video = {
+    genere: "Sc fi",
+    list: ['a1', 'b1', 'c1'],
+    findMovies() {
+        var self = this;
+        // this.list.forEach(function (movie, index) {
+        //     console.log(self.genere, movie)
+        // })
+        this.list.forEach((movie, index) => {
+            console.log(this.genere, movie)
+        })
+       
+    }
+};
+video.findMovies();
+//////////////////////////////////////////////////////////////////////////////////////////////
+
+Async Programming:
+..................
+
+Process: -  Java,C++ - Runtimes:
+
+  Multi threaded.
+
+Process : js engine -browser / node
+
+ Single Threaded.
+
+
+how to implement async / non blocking arch:
+
+1.select api which talks to kernal in blocking.
+  eg:
+   timers
+   xhr
+   websocket
+   dom event apis
+
+2.how to process data returned from kernal
+  function - callback function. - function is passed as parameter
+
+
+Styles of write async :
+
+1.callback style -core style
+2.Promise style - simplified version of callbacks
+3.async await style - simplified version of promises.
+ 
+
+Simple timer:
+//async ; callback style
+
+function delay(callback) {
+    //async api
+    setTimeout(callback, 5000,'Subramanian')
+}
+console.log('start')
+delay((data) => {
+    //logic
+    console.log('hello using timer',data)
+});
+console.log('end')
+/////////////////////////////////////////////////////////////////////////////////////////////
+complex callbacks:
+
+
+const getUser = (resolve, reject) => {
+    //logic
+    let user = { id: 1, name: 'admin' };
+    //user = null;
+    let error = { message: 'User not found' }
+    if (user) {
+        setTimeout(resolve, 1000, user);
+    } else {
+        setTimeout(reject, 1000, error)
+    }
+};
+
+getUser(user => {
+    console.log(user)
+}, err => {
+    console.log(err)
+});
+
+
+
+
+Callback chain / nested callbacks:
+
+ "The output of one callback will be input to another callback".
+
+
+const getUser = (resolve, reject) => {
+    //logic
+    let user = { id: 1, name: 'admin' };
+    //user = null;
+    let error = { message: 'User not found' }
+    if (user) {
+        setTimeout(resolve, 1000, user);
+    } else {
+        setTimeout(reject, 1000, error)
+    }
+};
+
+const login = (user, resolve, reject) => {
+    let status = 'login success'
+    let error = 'login failed'
+    if (user.name === 'admin') {
+        setTimeout(resolve, 1000, status);
+    } else {
+        setTimeout(reject, 1000, error)
+    }
+};
+
+const showPage = (status, resolve, reject) => {
+    let page = 'Admin page'
+    let error = 'Guest Page'
+    if (status === 'login success') {
+        setTimeout(resolve, 1000, page);
+    } else {
+        setTimeout(reject, 1000, error)
+    }
+};
+
+
+getUser(user => {
+    console.log('getUser is called')
+    //call login method
+    login(user, status => {
+        console.log('login  is called')
+        //show page is called
+        showPage(status, page => {
+            console.log('Page is called')
+            console.log(page)
+        }, err => {
+            console.log(err)
+        });
+    }, err => {
+        console.log(err)
+    });
+}, err => {
+    console.log(err)
+});
+
+
+Questions:
+
+1.Whether this code is able to understand quickly
+2.Whether this code is able to debug
+3.Whehter this code is scalable?
+4.whether this code is maintaiable?
+
+
+  "No" : This is what we call as "Callback hell".
+
+fs.readdir(source, function (err, files) {
+  if (err) {
+    console.log('Error finding files: ' + err)
+  } else {
+    files.forEach(function (filename, fileIndex) {
+      console.log(filename)
+      gm(source + filename).size(function (err, values) {
+        if (err) {
+          console.log('Error identifying file size: ' + err)
+        } else {
+          console.log(filename + ' : ' + values)
+          aspect = (values.width / values.height)
+          widths.forEach(function (width, widthIndex) {
+            height = Math.round(width / aspect)
+            console.log('resizing ' + filename + 'to ' + height + 'x' + height)
+            this.resize(width, height).write(dest + 'w' + width + '_' + filename, function(err) {
+              if (err) console.log('Error writing file: ' + err)
+            })
+          }.bind(this))
+        }
+      })
+    })
+  }
+})
+callback is other wise called as doom of pyrbid.
+
+
+///////////////////////////////////////////////////////////////////////////////////////////
+
+How to write better callback programming? or How to avoid callback hell?
+
+
+In 2005, JQUERY team started with working complex callback patterns, they found callback
+hell problem.
+
+They proposed a  Design pattern to write better callback programming(Async) programming.
+
+  "Promise".
+
+
+Promise is design pattern which hides complexity of callback patterns
+
+
+SInce Promise is design pattern, many people have implemented Promise design pattern.
+
+1.JQuery -first promise implementation
+2.many libs and frameworks
+
+2012 E6 Commit introduced Promise as Object in javascript
+
+features of Promise Object:
+
+1.Promise by deafult is Async. Which implements timer api with 0 ms .
+
+Promise can be used with any async implementations.
+
+
+
+
 
 
 
